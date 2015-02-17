@@ -1,0 +1,9 @@
+# specific .gitignore for this directory
+
+# ignore everything
+*
+
+# except the explaining README
+!README
+# and this .gitignore
+!.gitignore
