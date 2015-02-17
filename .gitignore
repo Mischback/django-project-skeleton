@@ -1,0 +1,2 @@
+# do NOT track Python compilation files
+*.py[cod]
