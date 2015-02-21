@@ -7,12 +7,12 @@
     # This alias makes serving static files possible.
     #   Please note, that this is geared to our settings/common.py
     #   In production environment, you will propably adjust this!
-    Alias /static/  {{ project_directory }}/static/
+    Alias /static/  {{ project_directory }}/run/static/
 
     # This alias makes serving media files possible.
     #   Please note, that this is geared to our settings/common.py
     #   In production environment, you will propably adjust this!
-    Alias /media/  {{ project_directory }}/media/
+    Alias /media/  {{ project_directory }}/run/media/
 
     # Insert the full path to the wsgi.py-file here
     WSGIScriptAlias /   {{ project_directory }}/{{ project_name }}/wsgi.py
@@ -33,7 +33,7 @@
     # Serving static files from this directory
     #   Please note, that this is geared to our settings/common.py
     #   In production environment, you will propably adjust this!
-    <Directory {{ project_directory }}/static>
+    <Directory {{ project_directory }}/run/static>
         Options -Indexes
         Order deny,allow
         Allow from all
@@ -42,7 +42,7 @@
     # Serving media files from this directory
     #   Please note, that this is geared to our settings/common.py
     #   In production environment, you will propably adjust this!
-    <Directory {{ project_directory }}/media>
+    <Directory {{ project_directory }}/run/media>
         Options -Indexes
         Order deny,allow
         Allow from all
