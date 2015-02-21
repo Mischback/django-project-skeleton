@@ -30,3 +30,5 @@ Contents:
 
     quickstart
     structure
+    settings
+    apache2_vhost
