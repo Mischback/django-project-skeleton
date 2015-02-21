@@ -5,7 +5,7 @@
     ServerAdmin webmaster@localhost
 
     # Insert the full path to the wsgi.py-file here
-    WSGIScriptAlias /   [[PATH/TO/WSGI/FILE]]
+    WSGIScriptAlias /   {{ project_directory }}/{{ project_name }}/wsgi.py
 
     # PROCESS_NAME specifies a distinct name of this process
     #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIDaemonProcess
@@ -14,15 +14,15 @@
     # PATH/TO/VIRTUALENV/ROOT: If you are using a virtualenv specify the full
     #   path to its directory.
     #   Generally you must specify the path to Python's site-packages.
-    WSGIDaemonProcess   [[PROCESS_NAME]]  python-path=[[PATH/TO/PROJECT_ROOT]]:[[PATH/TO/VIRTUALENV/ROOT]]/lib/python2.7/site-packages
+    WSGIDaemonProcess   {{ project_name }}  python-path={{ project_directory }}:{{ project_directory }}/../lib/python2.7/site-packages
 
     # PROCESS_GROUP specifies a distinct name for the process group
     #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIProcessGroup
-    WSGIProcessGroup    [[PROCESS_GROUP]]
+    WSGIProcessGroup    {{ project_name }}
 
     LogLevel warn
 
     # PROJECT_NAME is used to seperate the log files of this application
-    ErrorLog    ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_error.log
-    CustomLog   ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_access.log combined
+    ErrorLog    ${APACHE_LOG_DIR}/{{ project_name }}_error.log
+    CustomLog   ${APACHE_LOG_DIR}/{{ project_name }}_access.log combined
 </VirtualHost>
