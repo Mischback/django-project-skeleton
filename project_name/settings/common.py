@@ -20,6 +20,16 @@ STATIC_ROOT = join(PROJECT_ROOT, 'run', 'static')
 # Collect media files here
 MEDIA_ROOT = join(PROJECT_ROOT, 'run', 'media')
 
+# look for static assets here
+STATICFILES_DIRS = [
+    join(PROJECT_ROOT, 'static'),
+]
+
+# look for templates here
+TEMPLATE_DIRS = [
+    join(PROJECT_ROOT, 'templates'),
+]
+
 
 # ##### APPLICATION CONFIGURATION #########################
 
