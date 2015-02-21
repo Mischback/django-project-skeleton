@@ -4,6 +4,16 @@
     ServerName  [[SERVER_NAME]]
     ServerAdmin webmaster@localhost
 
+    # This alias makes serving static files possible.
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    Alias /static/  {{ project_directory }}/static/
+
+    # This alias makes serving media files possible.
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    Alias /media/  {{ project_directory }}/media/
+
     # Insert the full path to the wsgi.py-file here
     WSGIScriptAlias /   {{ project_directory }}/{{ project_name }}/wsgi.py
 
@@ -19,6 +29,24 @@
     # PROCESS_GROUP specifies a distinct name for the process group
     #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIProcessGroup
     WSGIProcessGroup    {{ project_name }}
+
+    # Serving static files from this directory
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    <Directory {{ project_directory }}/static>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    # Serving media files from this directory
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    <Directory {{ project_directory }}/media>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
 
     LogLevel warn
 
