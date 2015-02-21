@@ -1,13 +1,28 @@
 <VirtualHost *:80>
+    # This is name based virtual hosting. So place an appropriate server name
+    #   here. Example: django.devsrv.local
     ServerName  [[SERVER_NAME]]
     ServerAdmin webmaster@localhost
 
+    # Insert the full path to the wsgi.py-file here
     WSGIScriptAlias /   [[PATH/TO/WSGI/FILE]]
-    WSGIDaemonProcess   [[DJANGO_USER_NAME]]  python-path=[[PATH/TO/PROJECT_ROOT]]:[[PATH/TO/VIRTUALENV/ROOT]]/lib/python2.7/site-packages
-    WSGIProcessGroup    [[DJANGO_USER_GROUP]]
+
+    # PROCESS_NAME specifies a distinct name of this process
+    #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIDaemonProcess
+    # PATH/TO/PROJECT_ROOT is the full path to your project's root directory, 
+    #   containing your project files
+    # PATH/TO/VIRTUALENV/ROOT: If you are using a virtualenv specify the full
+    #   path to its directory.
+    #   Generally you must specify the path to Python's site-packages.
+    WSGIDaemonProcess   [[PROCESS_NAME]]  python-path=[[PATH/TO/PROJECT_ROOT]]:[[PATH/TO/VIRTUALENV/ROOT]]/lib/python2.7/site-packages
+
+    # PROCESS_GROUP specifies a distinct name for the process group
+    #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIProcessGroup
+    WSGIProcessGroup    [[PROCESS_GROUP]]
 
     LogLevel warn
 
+    # PROJECT_NAME is used to seperate the log files of this application
     ErrorLog    ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_error.log
     CustomLog   ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_access.log combined
 </VirtualHost>
