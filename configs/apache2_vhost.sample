@@ -1,0 +1,13 @@
+<VirtualHost *:80>
+    ServerName  [[SERVER_NAME]]
+    ServerAdmin webmaster@localhost
+
+    WSGIScriptAlias /   [[PATH/TO/WSGI/FILE]]
+    WSGIDaemonProcess   [[DJANGO_USER_NAME]]  python-path=[[PATH/TO/PROJECT_ROOT]]:[[PATH/TO/VIRTUALENV/ROOT]]/lib/python2.7/site-packages
+    WSGIProcessGroup    [[DJANGO_USER_GROUP]]
+
+    LogLevel warn
+
+    ErrorLog    ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_error.log
+    CustomLog   ${APACHE_LOG_DIR}/[[PROJECT_NAME]]_access.log combined
+</VirtualHost>
