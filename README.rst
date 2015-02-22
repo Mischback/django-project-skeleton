@@ -35,7 +35,8 @@ If you wish to automagically fill the ``apache2_vhost.sample`` the command is::
     $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip --name apache2_vhost.sample [projectname]
 
 
-Disclaimer
-----------
+Documentation
+-------------
 
-More documentation will follow with the initial release
+You can see the documentation over at **Read the Docs**: `django-project-skeleton
+<http://django-project-skeleton.readthedocs.org/en/latest/>`_
