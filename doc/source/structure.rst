@@ -29,7 +29,7 @@ The ``template``-argument works with paths on your local machine, but also
 supports URLs. So you can easily fetch this skeleton from **GitHub** using this
 command::
 
-    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip [projectname]
+    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip [projectname]
 
 Your project will look like this::
 
@@ -68,13 +68,42 @@ Your project will look like this::
 Django Root
 -----------
 
-This directory is the project's connection with Django. It contains the
-*wsgi-Application* (in ``wsgi.py``) and the *root URL configuration*
-(in ``urls.py``).
+::
 
-Instead of a plain *settings*-file, the configuration is split into several
-files in a ``settings``-module. For an in depth documentation of these settings
-see :ref:`label-project-settings`.
+    [projectname]/                  <- project root
+    ├── [projectname]/              <- Django root
+    │   ├── __init__.py
+    │   ├── settings/
+    │   │   ├── common.py
+    │   │   ├── dev.py
+    │   │   ├── djangodefault.py
+    │   │   ├── __init__.py
+    │   │   └── production.py
+    │   ├── urls.py
+    │   └── wsgi.py
+    └── *snap*
+
+The Django root directory will be named according to the project name you
+specified in ``django-admin startproject [projectname]``. This directory is the
+project's connection with Django.
+
+``[projectname]/settings/``
+    Instead of a plain *settings*-file, the configuration is split into several
+    files in this Python module. For an in-depth documentation of these
+    settings see :ref:`label-project-settings`.
+
+``[projectname]/urls.py``
+    The root URL configuration of the project. The only configured set of urls
+    is the admin-application. For background information see `The Django Book
+    Chapter 3 <http://www.djangobook.com/en/2.0/chapter03.html>`_ and `The
+    Django Book Chapter 8 <http://www.djangobook.com/en/2.0/chapter08.html>`_.
+
+``[projectname]/wsgi.py``
+    Deploying Django makes use of WSGI, the Pythonic way of deploying web
+    applications. See the `official settings documentation on WSGI
+    <https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/>`_ for more
+    details. The default WSGI-application is modified to use our
+    ``settings``-module.
 
 
 configs/
@@ -84,16 +113,35 @@ This directory contains configuration files for deployment. Now only a
 configuration file for deployment with **Apache2** and **mod_wsgi** is
 provided.
 
+::
+
+    [projectname]/                  <- project root
+    ├── *snap*
+    ├── configs/
+    │   ├── apache2_vhost.sample
+    │   └── README
+    └── *snap*
+
 **Please note:** It is strongly advised to keep your actual server
 configuration private. Therefore a ``.gitignore``-file is provided, which will
 only include files ending with the suffix ``.sample`` into *Git*.
 
-For a brief overview of the ``apach2_vhost.sample`` refer to
+For a brief overview of the ``configs/apach2_vhost.sample`` refer to
 :ref:`label-apache2-vhost`.
 
 
 doc/
 ----
+
+::
+
+    [projectname]/                  <- project root
+    ├── *snap*
+    ├── doc/
+    │   ├── Makefile
+    │   └── source/
+    │       └── *snap*
+    └── *snap*
 
 This directory contains the source files for this documentation.
 
@@ -104,6 +152,18 @@ your own project.
 run/
 ----
 
+::
+
+    [projectname]/                  <- project root
+    ├── *snap*
+    ├── run/
+    │   ├── media/
+    │   │   └── README
+    │   ├── README
+    │   └── static/
+    │       └── README
+    └── *snap*
+
 This directory contains necessary files for running Django. All these files
 may contain sensible or useless information, so you will not want to keep this
 files in version control. A ``.gitignore``-file is prepared.
@@ -112,35 +172,37 @@ This directory will contain the SQLite database file (if you keep the provided
 ``dev``-settings) and the *SECRET_KEY* of Django. For a detailled explanation
 see :ref:`label-project-settings`.
 
-media/
-^^^^^^
+``run/media/``
+    Django uses a special folder to store user-provided files (uploads). In the
+    settings-module of this skeleton this directory is set as ``MEDIA_ROOT``.
 
-Django uses a special folder to store user-provided files (uploads). In the
-settings-module of this skeleton this directory is set as ``MEDIA_ROOT``.
-
-In a production-environment you will want to handle media files differently,
-so you will not longer use this directory. Regard it as a development setting.
-
-static/
-^^^^^^^
-
-Similar to media files, all static assets (i.e. stylesheets, javascript files,
-images) are served from a special directory.
-
-In a production-environment you will want to handle static files differently,
-so you will not longer use this directory. Regard it as a development setting.
+``run/static/``
+    Similar to media files, all static assets (i.e. stylesheets, javascript
+    files, images) are served from a special directory.
 
 
-static/
--------
+static/ and templates/
+----------------------
 
-This directory is used to provide our project wide static assets. Please refer
-to `the Django documentation
-<https://docs.djangoproject.com/en/1.7/howto/static-files/#configuring-static-files>`_
-for more details.
+::
 
+    [projectname]/                  <- project root
+    ├── *snap*
+    ├── static/
+    │   └── README
+    └── templates/
+        └── README
 
-templates/
-----------
+These directories are used for project wide files, meaning project wide static
+assets and templates.
 
-This directory is used to provide our project wide templates.
+``static/``
+    This directory is used to provide our project wide static assets. Please
+    refer to `the Django documentation
+    <https://docs.djangoproject.com/en/1.7/howto/static-files/#configuring-static-files>`_
+    for more details. :ref:`label-project-settings` documents the
+    ``STATICFILES_DIRS``-setting.
+
+``templates/``
+    This directory is used to provide our project wide templates.
+    :ref:`label-project-settings` documents the ``TEMPLATE_DIRS``-setting.

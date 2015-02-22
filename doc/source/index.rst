@@ -23,7 +23,8 @@ Notable Features
 * prepared sample configuration for *Apache2*-deployment with *mod_wsgi*
 * including ``.gitignore``-files to help getting started with *Git*
 
-Contents:
+Contents
+--------
 
 .. toctree::
     :maxdepth: 2
