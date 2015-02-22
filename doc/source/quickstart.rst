@@ -3,7 +3,7 @@ Quickstart
 
 I assume you know what you are doing, so let's just do it::
 
-    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip [projectname]
+    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip [projectname]
 
 Your project will look like this::
 
