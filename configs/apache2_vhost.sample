@@ -1,0 +1,56 @@
+<VirtualHost *:80>
+    # This is name based virtual hosting. So place an appropriate server name
+    #   here. Example: django.devsrv.local
+    ServerName  [[SERVER_NAME]]
+    ServerAdmin webmaster@localhost
+
+    # This alias makes serving static files possible.
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    Alias /static/  {{ project_directory }}/run/static/
+
+    # This alias makes serving media files possible.
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    Alias /media/  {{ project_directory }}/run/media/
+
+    # Insert the full path to the wsgi.py-file here
+    WSGIScriptAlias /   {{ project_directory }}/{{ project_name }}/wsgi.py
+
+    # PROCESS_NAME specifies a distinct name of this process
+    #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIDaemonProcess
+    # PATH/TO/PROJECT_ROOT is the full path to your project's root directory, 
+    #   containing your project files
+    # PATH/TO/VIRTUALENV/ROOT: If you are using a virtualenv specify the full
+    #   path to its directory.
+    #   Generally you must specify the path to Python's site-packages.
+    WSGIDaemonProcess   {{ project_name }}  python-path={{ project_directory }}:{{ project_directory }}/../lib/python2.7/site-packages
+
+    # PROCESS_GROUP specifies a distinct name for the process group
+    #   see: https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIProcessGroup
+    WSGIProcessGroup    {{ project_name }}
+
+    # Serving static files from this directory
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    <Directory {{ project_directory }}/run/static>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    # Serving media files from this directory
+    #   Please note, that this is geared to our settings/common.py
+    #   In production environment, you will propably adjust this!
+    <Directory {{ project_directory }}/run/media>
+        Options -Indexes
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    LogLevel warn
+
+    # PROJECT_NAME is used to seperate the log files of this application
+    ErrorLog    ${APACHE_LOG_DIR}/{{ project_name }}_error.log
+    CustomLog   ${APACHE_LOG_DIR}/{{ project_name }}_access.log combined
+</VirtualHost>
