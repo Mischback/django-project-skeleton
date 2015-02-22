@@ -1,3 +1,5 @@
+# Import sys (to adjust Python path)
+import sys
 # Import some utility functions
 from os.path import abspath, basename, dirname, join, normpath
 
@@ -29,6 +31,9 @@ STATICFILES_DIRS = [
 TEMPLATE_DIRS = [
     join(PROJECT_ROOT, 'templates'),
 ]
+
+# Add apps/ to the Python path
+sys.path.append(normpath(join(PROJECT_ROOT, 'apps')))
 
 
 # ##### APPLICATION CONFIGURATION #########################

@@ -44,6 +44,8 @@ Your project will look like this::
     │   │   └── production.py
     │   ├── urls.py
     │   └── wsgi.py
+    ├── apps/
+    │   └── __init__.py
     ├── configs/
     │   ├── apache2_vhost.sample
     │   └── README
@@ -104,6 +106,23 @@ project's connection with Django.
     <https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/>`_ for more
     details. The default WSGI-application is modified to use our
     ``settings``-module.
+
+
+apps/
+-----
+
+::
+
+    [projectname]/                  <- project root
+    ├── *snap*
+    ├── apps/
+    │   └── __init__.py
+    └── *snap*
+
+This directory is used for custom applications. You can safely remove this
+directory, if you do not plan to develop custom applications. Most of a
+Django project's apps will be installed into the Python path and not be kept
+in your project root.
 
 
 configs/

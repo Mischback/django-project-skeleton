@@ -7,10 +7,10 @@ I assume you know what you are doing, so let's just do it::
 
 Your project will look like this::
 
-    [projectname]
-    ├── [projectname]
+    [projectname]/
+    ├── [projectname]/
     │   ├── __init__.py
-    │   ├── settings
+    │   ├── settings/
     │   │   ├── common.py
     │   │   ├── dev.py
     │   │   ├── djangodefault.py
@@ -18,24 +18,26 @@ Your project will look like this::
     │   │   └── production.py
     │   ├── urls.py
     │   └── wsgi.py
-    ├── configs
+    ├── apps/
+    │   └── __init__.py
+    ├── configs/
     │   ├── apache2_vhost.sample
     │   └── README
-    ├── doc
+    ├── doc/
     │   ├── Makefile
-    │   └── source
+    │   └── source/
     │       └── *snap*
     ├── manage.py
     ├── README.rst
-    ├── run
-    │   ├── media
+    ├── run/
+    │   ├── media/
     │   │   └── README
     │   ├── README
-    │   └── static
+    │   └── static/
     │       └── README
-    ├── static
+    ├── static/
     │   └── README
-    └── templates
+    └── templates/
         └── README
 
 See :ref:`label-project-structure` for a detailled description of this layout.
