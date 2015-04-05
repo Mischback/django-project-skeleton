@@ -15,10 +15,10 @@ Status:
     maintained, in development
 
 Version:
-    1.0 (first release)
+    1.1
 
 Django Version:
-    1.7.4
+    1.8
 
 
 
@@ -26,7 +26,7 @@ Usage
 -----
 
 To use this repository just use the ``template`` option of `django-admin
-<https://docs.djangoproject.com/en/1.7/ref/django-admin/#startproject-projectname-destination>`_::
+<https://docs.djangoproject.com/en/1.8/ref/django-admin/#startproject-projectname-destination>`_::
 
     $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip [projectname]
 
@@ -35,7 +35,8 @@ If you wish to automagically fill the ``apache2_vhost.sample`` the command is::
     $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip --name apache2_vhost.sample [projectname]
 
 
-Disclaimer
-----------
+Documentation
+-------------
 
-More documentation will follow with the initial release
+You can see the documentation over at **Read the Docs**: `django-project-skeleton
+<http://django-project-skeleton.readthedocs.org/en/stable/>`_
