@@ -15,10 +15,10 @@ Status:
     maintained, in development
 
 Version:
-    1.0 (first release)
+    1.1
 
 Django Version:
-    1.7.4
+    1.8
 
 
 

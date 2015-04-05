@@ -36,3 +36,4 @@ Contents
     structure
     settings
     apache2_vhost
+    versions
