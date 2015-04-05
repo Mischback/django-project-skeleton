@@ -41,9 +41,16 @@ Path Configuration
     <https://docs.djangoproject.com/en/1.8/ref/settings/#staticfiles-dirs>`_
     for more details.
 
-``TEMPLATE_DIRS``
+``PROJECT_TEMPLATES``
+    *(changed in 1.1)*
+
     Django will look in these locations for additional
-    templates. Our settings module adds ``[project_root]/templates``. See the
+    templates. Our settings module adds ``[project_root]/templates``.
+
+    This setting was changed to reflect the changes in Django 1.8: Django
+    features the possibility to use multiple different template engines. This
+    is controlled with the TEMPLATES directive and represents the old
+    TEMPLATE_DIRS directive. See the
     `official settings documentation on TEMPLATE_DIRS
     <https://docs.djangoproject.com/en/1.8/ref/settings/#template-dirs>`_
     for more details.
@@ -63,12 +70,13 @@ Application Configuration
     <https://docs.djangoproject.com/en/1.8/ref/settings/#middleware-classes>`_
     for more details.
 
-``TEMPLATE_CONTEXT_PROCESSORS``
-    This setting is not included in the settings of ``django-admin startproject``
-    but is added using the default values. See the `official settings
-    documentation on TEMPLATE_CONTEXT_PROCESSORS 
-    <https://docs.djangoproject.com/en/1.8/ref/settings/#template-context-processors>`_
-    for more details.
+``TEMPLATES``
+    *(new in 1.1; Django 1.8)*
+
+    This setting reflects the new feature of multiple template engines, which
+    was introduced in Django 1.8. The value is taken from the
+    `official upgrading guide <https://docs.djangoproject.com/en/dev/ref/templates/upgrading/>`_
+    and adjusted to include our project templates, defined in *PROJECT_TEMPLATES*.
 
 Security Configuration
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -127,10 +135,6 @@ Debug Configuration
     <https://docs.djangoproject.com/en/1.8/ref/settings/#debug>`_ for additional
     information.
 
-``TEMPLATE_DEBUG``
-    I have never really understood why ``DEBUG`` is seperated from
-    ``TEMPLATE_DEBUG``. So let's just keep them in sync.
-
 Internationalization
 ^^^^^^^^^^^^^^^^^^^^
 
@@ -169,10 +173,6 @@ Debug Configuration
 
 ``DEBUG``
     We are developing, so activate debugging.
-
-``TEMPLATE_DEBUG``
-    See my above nerdrage about template debugging vs. debugging. Keep them
-    in sync.
 
 Database Configuration
 ^^^^^^^^^^^^^^^^^^^^^^
