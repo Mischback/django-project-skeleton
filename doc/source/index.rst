@@ -15,7 +15,7 @@ needs for new Django projects. Please feel free to modify it to your own
 requirements but be aware that no changes will be made, that **I** do not
 consider usefull.
 
-**Additional note:** As of this writing, Django 1.7 is used. So I can only
+**Additional note:** As of this writing, Django 1.8 is used. So I can only
 guarantee that this is working with this version.
 
 Notable Features

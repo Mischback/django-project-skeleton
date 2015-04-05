@@ -28,7 +28,8 @@ STATICFILES_DIRS = [
 ]
 
 # look for templates here
-TEMPLATE_DIRS = [
+# This is an internal setting, used in the TEMPLATES directive
+PROJECT_TEMPLATES = [
     join(PROJECT_ROOT, 'templates'),
 ]
 
@@ -57,17 +58,27 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 # Template stuff
-TEMPLATE_CONTEXT_PROCESSORS = [
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages'
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': PROJECT_TEMPLATES,
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages'
+            ],
+        },
+    },
 ]
 
 
@@ -104,7 +115,6 @@ MEDIA_URL = '/media/'
 
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
 
 # ##### INTERNATIONALIZATION ##############################

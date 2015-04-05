@@ -26,7 +26,7 @@ Usage
 -----
 
 To use this repository just use the ``template`` option of `django-admin
-<https://docs.djangoproject.com/en/1.7/ref/django-admin/#startproject-projectname-destination>`_::
+<https://docs.djangoproject.com/en/1.8/ref/django-admin/#startproject-projectname-destination>`_::
 
     $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip [projectname]
 

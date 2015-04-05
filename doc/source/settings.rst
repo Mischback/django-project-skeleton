@@ -26,26 +26,26 @@ Path Configuration
 ``STATIC_ROOT``
     The directory to collect static files into. It will be set to
     ``[project_root]/run/static``. Please refer to the `official settings
-    documentation on STATIC_ROOT <https://docs.djangoproject.com/en/1.7/ref/settings/#static-root>`_
-    and `this howto on static files <https://docs.djangoproject.com/en/1.7/howto/static-files/>`_.
+    documentation on STATIC_ROOT <https://docs.djangoproject.com/en/1.8/ref/settings/#static-root>`_
+    and `this howto on static files <https://docs.djangoproject.com/en/1.8/howto/static-files/>`_.
 
 ``MEDIA_ROOT``
     The directory for user-uploaded files. It will be set to
     ``[project_root]/run/media``. Please refer to the `official settings
-    documentation on MEDIA_ROOT <https://docs.djangoproject.com/en/1.7/ref/settings/#media-root>`_.
+    documentation on MEDIA_ROOT <https://docs.djangoproject.com/en/1.8/ref/settings/#media-root>`_.
 
 ``STATICFILES_DIRS``
     Django will look in these locations for additional static
     assets to collect. Our settings module adds ``[project_root]/static`` to
     the list. See the `official settings documentation on STATICFILES_DIRS
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#staticfiles-dirs>`_
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#staticfiles-dirs>`_
     for more details.
 
 ``TEMPLATE_DIRS``
     Django will look in these locations for additional
     templates. Our settings module adds ``[project_root]/templates``. See the
     `official settings documentation on TEMPLATE_DIRS
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#template-dirs>`_
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#template-dirs>`_
     for more details.
 
 Application Configuration
@@ -60,14 +60,14 @@ Application Configuration
     These are the default middleware classes, directly taken from the default
     settings created by ``django-admin startproject``. See the
     `official settings documentation on MIDDLEWARE_CLASSES 
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#middleware-classes>`_
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#middleware-classes>`_
     for more details.
 
 ``TEMPLATE_CONTEXT_PROCESSORS``
     This setting is not included in the settings of ``django-admin startproject``
     but is added using the default values. See the `official settings
     documentation on TEMPLATE_CONTEXT_PROCESSORS 
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#template-context-processors>`_
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#template-context-processors>`_
     for more details.
 
 Security Configuration
@@ -81,12 +81,12 @@ Security Configuration
 ``ADMINS``
     You will have to fill this setting yourself, please refer to `official
     settings documentation on ADMINS
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#admins>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#admins>`_.
 
 ``MANAGERS``
     You will have to fill this setting yourself, please refer to `official
     settings documentation on MANAGERS
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#managers>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#managers>`_.
 
 Django Running Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -98,23 +98,23 @@ Django Running Configuration
 ``ROOT_URLCONF``
     Determines the root URLconf. Set to ``[project_name].urls``. See `official
     settings documentation on ROOT_URLCONF
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#root-urlconf>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#root-urlconf>`_.
 
 ``SITE_ID``
     A unique ID of the site. See `official settings documentation on SITE_ID
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#site-id>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#site-id>`_.
 
 ``STATIC_URL``
     Determines, under which URL static files are served. You will want to
     adjust this in a production scenario. Our default value is ``/static/``.
     See `official settings documentation on STATIC_URL
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#static-url>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#static-url>`_.
 
 ``MEDIA_URL``
     Determines, under which URL media files are served. You will want to
     adjust this in a production scenario. Our default value is ``/media/``.
     See `official settings documentation on MEDIA_URL
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#media-url>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#media-url>`_.
 
 Debug Configuration
 ^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ Debug Configuration
     are our common settings, which are shared between all configurations. We
     just want debugging while we are developing, so debugging will be activated
     in *dev.py*. See `official settings documentation on DEBUG
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#debug>`_ for additional
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#debug>`_ for additional
     information.
 
 ``TEMPLATE_DEBUG``
@@ -136,27 +136,27 @@ Internationalization
 
 ``LANGUAGE_CODE``
     Sets the language of this project. See `official settings documentation on
-    LANGUAGE_CODE <https://docs.djangoproject.com/en/1.7/ref/settings/#language-code>`_.
+    LANGUAGE_CODE <https://docs.djangoproject.com/en/1.8/ref/settings/#language-code>`_.
 
 ``TIME_ZONE``
     Sets the time zone of this project. See `official settings documentation
     on TIME_ZONE
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#time-zone>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#time-zone>`_.
 
 ``USE_I18N``
     Activates Django's translation system. See `official settings documentation
     on USE_I18N
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#use-i18n>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#use-i18n>`_.
 
 ``USE_L10N``
     Activates Django's localization engine. See `official settings documentation
     on USE_L10N
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#use-l10n>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#use-l10n>`_.
 
 ``USE_TZ``
     Make datetimes timezone aware. See `official settings documentation on
     USE_TZ
-    <https://docs.djangoproject.com/en/1.7/ref/settings/#use-tz>`_.
+    <https://docs.djangoproject.com/en/1.8/ref/settings/#use-tz>`_.
 
 
 dev.py

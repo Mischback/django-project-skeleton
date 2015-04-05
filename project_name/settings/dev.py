@@ -7,7 +7,6 @@ from common import *
 
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 
 # ##### DATABASE CONFIGURATION ############################
