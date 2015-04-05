@@ -29,7 +29,7 @@ The ``template``-argument works with paths on your local machine, but also
 supports URLs. So you can easily fetch this skeleton from **GitHub** using this
 command::
 
-    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/development.zip [projectname]
+    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip [projectname]
 
 Your project will look like this::
 
