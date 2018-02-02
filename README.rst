@@ -11,6 +11,9 @@ Meta
 Author:
     Mischback
 
+Contributors:
+    `jmrbcu <https://github.com/jmrbcu>`_
+
 Status:
     maintained, in development
 
