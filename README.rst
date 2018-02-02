@@ -12,6 +12,7 @@ Author:
     Mischback
 
 Contributors:
+    `agirardeaudale <https://github.com/agirardeuadale>`_
     `jmrbcu <https://github.com/jmrbcu>`_
 
 Status:
