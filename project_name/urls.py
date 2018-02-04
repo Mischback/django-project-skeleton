@@ -9,7 +9,7 @@ from django.contrib import admin
 
 urlpatterns = [
     # Examples:
-    # url(r'^blog/', include('blog.urls', namespace=''blog')),
+    # url(r'^blog/', include('blog.urls', namespace='blog')),
 
     url(r'^admin/', admin.site.urls),
 ]
