@@ -1,2 +1,5 @@
 # do NOT track Python compilation files
 *.py[cod]
+
+# I started relying on putting temporary notes into TODO files
+*.todo

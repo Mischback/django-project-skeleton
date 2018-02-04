@@ -12,8 +12,7 @@ Your project will look like this::
     │   ├── __init__.py
     │   ├── settings/
     │   │   ├── common.py
-    │   │   ├── dev.py
-    │   │   ├── djangodefault.py
+    │   │   ├── development.py
     │   │   ├── __init__.py
     │   │   └── production.py
     │   ├── urls.py

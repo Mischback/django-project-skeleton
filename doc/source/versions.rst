@@ -1,5 +1,10 @@
 Versions
 ========
+``1.2, development``
+    suitable for Django version: **1.11**::
+
+    $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/1.2.zip [projectname]
+
 
 ``1.1, master``
     suitable for Django version: **1.8**::
