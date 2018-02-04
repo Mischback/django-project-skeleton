@@ -1,12 +1,15 @@
-# Import some utility functions
+# Python imports
 from os.path import join
-# Fetch our common settings
+
+# project imports
 from common import *
 
-# #########################################################
 
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = True
+
+# allow all hosts during development
+ALLOWED_HOSTS = ['*']
 
 
 # ##### DATABASE CONFIGURATION ############################
