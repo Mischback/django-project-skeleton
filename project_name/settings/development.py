@@ -4,6 +4,9 @@ from os.path import join
 # project imports
 from common import *
 
+# uncomment the following line to include i18n
+# from i18n import *
+
 
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = True
