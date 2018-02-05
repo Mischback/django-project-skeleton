@@ -19,7 +19,7 @@ Status:
     maintained, in development
 
 Version:
-    1.2
+    1.3
 
 Django Version:
     1.11
