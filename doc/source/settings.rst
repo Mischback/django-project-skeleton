@@ -138,28 +138,20 @@ Internationalization
 ^^^^^^^^^^^^^^^^^^^^
 
 ``LANGUAGE_CODE``
-    Sets the language of this project. See `official settings documentation on
-    LANGUAGE_CODE <https://docs.djangoproject.com/en/1.11/ref/settings/#language-code>`_.
+    *(removed in 1.3)*
 
 ``TIME_ZONE``
-    Sets the time zone of this project. See `official settings documentation
-    on TIME_ZONE
-    <https://docs.djangoproject.com/en/1.11/ref/settings/#time-zone>`_.
+    *(removed in 1.3)*
 
 ``USE_I18N``
-    Activates Django's translation system. See `official settings documentation
-    on USE_I18N
-    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-i18n>`_.
+    *(modified in 1.2:* ``False`` *)*
+    The setting is activated in ``i18n.py``.
 
 ``USE_L10N``
-    Activates Django's localization engine. See `official settings documentation
-    on USE_L10N
-    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-l10n>`_.
+    *(removed in 1.3)*
 
 ``USE_TZ``
-    Make datetimes timezone aware. See `official settings documentation on
-    USE_TZ
-    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-tz>`_.
+    *(removed in 1.3)*
 
 
 development.py
@@ -194,6 +186,59 @@ Application Configuration
     We have set the default apps. Now we build the (required)
     ``INSTALLED_APPS``-setting by using ``DEFAULT_APPS`` and add any app we
     need for development.
+
+
+i18n.py
+-------
+
+*(created in 1.3)*
+This file contains all settings, that affect internationalisation (i18n). These
+settings were taken from other parts of the configuration (see ``common.py``).
+The ``LocaleMiddleware`` will automatically be inserted into the ``MIDDLEWARE``
+list.
+
+The i18n-settings are not included by default. They have to be imported in 
+``development.py`` or ``production.py``.
+
+``LANGUAGE_CODE``
+    This is the default language of your project. Django will fall back to this
+    language, if the localization-middleware can't determine the user's
+    preferred language. See `official settings documentation on
+    LANGUAGE_CODE <https://docs.djangoproject.com/en/1.11/ref/settings/#language-code>`_.
+
+``TIME_ZONE``
+    Sets the time zone of this project. See `official settings documentation
+    on TIME_ZONE
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#time-zone>`_.
+
+``USE_I18N``
+    Activates Django's translation system. See `official settings documentation
+    on USE_I18N
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-i18n>`_.
+
+``USE_L10N``
+    Activates Django's localization engine. See `official settings documentation
+    on USE_L10N
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-l10n>`_.
+
+``USE_TZ``
+    Make datetimes timezone aware. See `official settings documentation on
+    USE_TZ
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#use-tz>`_.
+
+``LANGUAGES``
+    A list of supported languages. Django will only provide translation for
+    these. See `official settings documentation on
+    LANGUAGES
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#languages>`_.
+
+``LOCALE_PATHS``
+    A list of file system locations, to look for translations. See `official
+    settings documentation on LOCALE_PATHS
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#locale-paths>`_.
+    Please note: Django's ``LocaleMiddleware`` will automatically look for 
+    translation files in each apps ``locale`` directory, so they don't need
+    to be added here.
 
 
 production.py

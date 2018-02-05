@@ -78,6 +78,9 @@ TEMPLATES = [
     },
 ]
 
+# Internationalization
+USE_I18N = False
+
 
 # ##### SECURITY CONFIGURATION ############################
 
@@ -109,21 +112,6 @@ MEDIA_URL = '/media/'
 
 # ##### DEBUG CONFIGURATION ###############################
 DEBUG = False
-
-
-# ##### INTERNATIONALIZATION ##############################
-
-LANGUAGE_CODE = 'de'
-TIME_ZONE = 'Europe/Berlin'
-
-# Internationalization
-USE_I18N = True
-
-# Localisation
-USE_L10N = True
-
-# enable timezone awareness by default
-USE_TZ = True
 
 
 # finally grab the SECRET KEY
