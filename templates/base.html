@@ -1,0 +1,22 @@
+<DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}base.html | django-project-skeleton{% endblock %}</title>
+    </head>
+    <body>
+        <header>
+            {% if user.is_authenticated %}
+                <a href="{% url 'core_logout' %}">logout</a>
+            {% else %}
+                <a href="{% url 'core_login' %}">login</a>
+            {% endif %}
+        </header>
+        <main>
+            {% block content %}base.html{% endblock %}
+        </main>
+        <footer>
+            <a href="https://github.com/Mischback/django-project-skeleton">django-project-skeleton</a>
+        </footer>
+    </body>
+</html>

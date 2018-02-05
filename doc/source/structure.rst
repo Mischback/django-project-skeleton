@@ -39,6 +39,7 @@ Your project will look like this::
     │   ├── settings/
     │   │   ├── common.py
     │   │   ├── development.py
+    │   │   ├── i18n.py
     │   │   ├── __init__.py
     │   │   └── production.py
     │   ├── urls.py
@@ -63,6 +64,9 @@ Your project will look like this::
     ├── static/
     │   └── README
     └── templates/
+        ├── base.html
+        ├── core
+        │   └── login.html
         └── README
 
 
@@ -77,6 +81,7 @@ Django Root
     │   ├── settings/
     │   │   ├── common.py
     │   │   ├── development.py
+    │   │   ├── i18n.py
     │   │   ├── __init__.py
     │   │   └── production.py
     │   ├── urls.py
@@ -208,6 +213,9 @@ static/ and templates/
     ├── static/
     │   └── README
     └── templates/
+        ├── base.html
+        ├── core
+        │   └── login.html
         └── README
 
 These directories are used for project wide files, meaning project wide static
@@ -223,3 +231,5 @@ assets and templates.
 ``templates/``
     This directory is used to provide our project wide templates.
     :ref:`label-project-settings` documents the ``TEMPLATE_DIRS``-setting.
+    Please note, that there are two basic templates are already included. These
+    are used to enable a very basic login functionality for the project.

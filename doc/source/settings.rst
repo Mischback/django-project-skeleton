@@ -138,7 +138,92 @@ Internationalization
 ^^^^^^^^^^^^^^^^^^^^
 
 ``LANGUAGE_CODE``
-    Sets the language of this project. See `official settings documentation on
+    *(removed in 1.3)*
+
+``TIME_ZONE``
+    *(removed in 1.3)*
+
+``USE_I18N``
+    *(modified in 1.2:* ``False`` *)*
+    The setting is activated in ``i18n.py``.
+
+``USE_L10N``
+    *(removed in 1.3)*
+
+``USE_TZ``
+    *(removed in 1.3)*
+
+
+development.py
+--------------
+
+*(modified in 1.2: renamed* ``dev.py`` *to* ``development.py`` *)*
+This file contains development settings. Plase note, that ``manage.py`` will
+now automatically use this setting-file as its default, while ``wsgi.py``
+still refers to ``production.py``.
+
+Debug Configuration
+^^^^^^^^^^^^^^^^^^^
+
+``DEBUG``
+    We are developing, so activate debugging.
+
+``ALLOWED_HOSTS``
+    *(new in 1.2)*
+    Allow all hostnames to be used to access the server/project. See `official
+    settings documentation on ALLOWED_HOSTS
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#allowed-hosts>`_.
+
+``LOGIN_URL``
+    *(new in 1.3)*
+    The URL of Django's built-in login view. See `official
+    settings documentation on LOGIN_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-url>`_.
+
+``LOGIN_REDIRECT_URL``
+    *(new in 1.3)*
+    Django will redirect the user to this URL after login, if no specific URL is given.
+    See `official settings documentation on LOGIN_REDIRECT_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_.
+
+``LOGOUT_REDIRECT_URL``
+    *(new in 1.3)*
+    Django will redirect the user to this URL after logout, if no specific URL is given.
+    See `official settings documentation on LOGIN_REDIRECT_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_.
+
+Database Configuration
+^^^^^^^^^^^^^^^^^^^^^^
+
+``DATABASES``
+    I use SQLite for development. The database file will be created in 
+    ``[project_root]/run/dev.sqlite3``.
+
+Application Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``INSTALLED_APPS``
+    We have set the default apps. Now we build the (required)
+    ``INSTALLED_APPS``-setting by using ``DEFAULT_APPS`` and add any app we
+    need for development.
+
+
+i18n.py
+-------
+
+*(created in 1.3)*
+This file contains all settings, that affect internationalisation (i18n). These
+settings were taken from other parts of the configuration (see ``common.py``).
+The ``LocaleMiddleware`` will automatically be inserted into the ``MIDDLEWARE``
+list.
+
+The i18n-settings are not included by default. They have to be imported in 
+``development.py`` or ``production.py``.
+
+``LANGUAGE_CODE``
+    This is the default language of your project. Django will fall back to this
+    language, if the localization-middleware can't determine the user's
+    preferred language. See `official settings documentation on
     LANGUAGE_CODE <https://docs.djangoproject.com/en/1.11/ref/settings/#language-code>`_.
 
 ``TIME_ZONE``
@@ -161,39 +246,19 @@ Internationalization
     USE_TZ
     <https://docs.djangoproject.com/en/1.11/ref/settings/#use-tz>`_.
 
+``LANGUAGES``
+    A list of supported languages. Django will only provide translation for
+    these. See `official settings documentation on
+    LANGUAGES
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#languages>`_.
 
-development.py
---------------
-
-*(modified in 1.2: renamed* ``dev.py`` *to* ``development.py`` *)*
-This file contains development settings. Plase note, that ``manage.py`` will
-now automatically use this setting-file as its default, while ``wsgi.py``
-still refers to ``production.py``.
-
-Debug Configuration
-^^^^^^^^^^^^^^^^^^^
-
-``DEBUG``
-    We are developing, so activate debugging.
-
-``ALLOWED_HOSTS``
-    *(new in 1.2)*
-    Allow all hostnames to be used to access the server/project.
-
-Database Configuration
-^^^^^^^^^^^^^^^^^^^^^^
-
-``DATABASES``
-    I use SQLite for development. The database file will be created in 
-    ``[project_root]/run/dev.sqlite3``.
-
-Application Configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-``INSTALLED_APPS``
-    We have set the default apps. Now we build the (required)
-    ``INSTALLED_APPS``-setting by using ``DEFAULT_APPS`` and add any app we
-    need for development.
+``LOCALE_PATHS``
+    A list of file system locations, to look for translations. See `official
+    settings documentation on LOCALE_PATHS
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#locale-paths>`_.
+    Please note: Django's ``LocaleMiddleware`` will automatically look for 
+    translation files in each apps ``locale`` directory, so they don't need
+    to be added here.
 
 
 production.py
