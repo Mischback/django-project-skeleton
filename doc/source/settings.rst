@@ -170,7 +170,27 @@ Debug Configuration
 
 ``ALLOWED_HOSTS``
     *(new in 1.2)*
-    Allow all hostnames to be used to access the server/project.
+    Allow all hostnames to be used to access the server/project. See `official
+    settings documentation on ALLOWED_HOSTS
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#allowed-hosts>`_.
+
+``LOGIN_URL``
+    *(new in 1.3)*
+    The URL of Django's built-in login view. See `official
+    settings documentation on LOGIN_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-url>`_.
+
+``LOGIN_REDIRECT_URL``
+    *(new in 1.3)*
+    Django will redirect the user to this URL after login, if no specific URL is given.
+    See `official settings documentation on LOGIN_REDIRECT_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_.
+
+``LOGOUT_REDIRECT_URL``
+    *(new in 1.3)*
+    Django will redirect the user to this URL after logout, if no specific URL is given.
+    See `official settings documentation on LOGIN_REDIRECT_URL
+    <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_.
 
 Database Configuration
 ^^^^^^^^^^^^^^^^^^^^^^
