@@ -2,10 +2,10 @@
 from os.path import join
 
 # project imports
-from common import *
+from .common import *
 
 # uncomment the following line to include i18n
-# from i18n import *
+# from .i18n import *
 
 
 # ##### DEBUG CONFIGURATION ###############################
