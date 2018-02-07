@@ -1,0 +1,7 @@
+# coverage measures code coverage of Python programs
+# See http://coverage.readthedocs.io/en/latest/
+coverage
+
+# **tox** automates testing
+# See https://tox.readthedocs.io/en/latest/index.html
+tox

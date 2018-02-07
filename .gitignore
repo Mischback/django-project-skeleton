@@ -1,5 +1,8 @@
 # do NOT track Python compilation files
 *.py[cod]
 
+# Never ever track tox's testing folder
+.tox
+
 # I started relying on putting temporary notes into TODO files
 *.todo
