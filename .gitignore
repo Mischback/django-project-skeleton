@@ -1,5 +1,12 @@
 # do NOT track Python compilation files
 *.py[cod]
 
+# do NOT track tox's testing folder
+.tox
+
+# do NOT track coverage files/folders
+.coverage
+coverage_html
+
 # I started relying on putting temporary notes into TODO files
 *.todo
