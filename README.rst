@@ -24,6 +24,9 @@ Version:
 Django Version:
     1.11
 
+Python Version:
+    2.7, 3.5
+
 
 
 Usage
