@@ -1,0 +1,17 @@
+[flake8]
+exclude =
+    .git,
+    doc,
+    __pycache__,
+    .tox,
+
+ignore =
+    # as per Django's Coding Style
+    W601,
+
+# Build an own format string
+format = %(code)s %(path)s::%(row)s %(text)s
+
+# as per Django's Coding Style
+# see https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+max-line-length = 119

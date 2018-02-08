@@ -15,9 +15,9 @@ needs for new Django projects. Please feel free to modify it to your own
 requirements but be aware that no changes will be made, that **I** do not
 consider usefull.
 
-**Additional note:** As of this writing, Django 1.11 is used. So I can only
-guarantee that this is working with this version. However, the skeleton is
-tested with Python 2.7 (2.7.13) and Python 3.5 (3.5.3).
+**Additional note:** ``tox`` returns compatibility with Django versions 1.9,
+1.10, 1.11 and 2.0 for Python 2.7 (not Django 2.0) and Python 3.5. I assume,
+that Python 3.4 and 3.6 will work aswell.
 
 Notable Features
 ----------------
