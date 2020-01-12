@@ -1,5 +1,5 @@
 .SILENT:
-.PHONY: all clean
+.PHONY: all clean current doc doc-srv serve tox
 
 
 all:
@@ -9,6 +9,7 @@ all:
 	echo "  doc          Builds the documentation using 'Sphinx'"
 	echo "  doc-srv      Serves the documentation on port 8082 (and automatically builds it)"
 	echo "  serve        Runs the Django development server on port 8080"
+	echo "  tox          Runs complete tox test"
 	echo ""
 
 
@@ -28,3 +29,6 @@ doc-srv: doc
 
 serve:
 	tox -q -e run
+
+tox:
+	tox -q
