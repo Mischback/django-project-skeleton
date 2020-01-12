@@ -13,9 +13,9 @@ urlpatterns = [
     # url(r'^blog/', include('blog.urls', namespace='blog')),
 
     # provide the most basic login/logout functionality
-    url(r'^login/$', auth_views.login,
-        {'template_name': 'core/login.html'}, name='core_login'),
-    url(r'^logout/$', auth_views.logout, name='core_logout'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='core/login.html'),
+        name='core_login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(), name='core_logout'),
 
     # enable the admin interface
     url(r'^admin/', admin.site.urls),

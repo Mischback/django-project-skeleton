@@ -1,0 +1,37 @@
+# Travis-CI configuration file
+
+branches:
+    except:
+        - master
+
+sudo: false
+
+# language settings
+language: python
+
+# listing the Python versions to be tested
+python:
+    - "2.7"
+    - "3.4"
+    - "3.5"
+    - "3.6"
+    - "3.7"
+    - "3.8"
+
+# install specific dependencies for the execution of tests
+# TODO: manage this in a requirements-file (requirements/travis.txt)?
+install:
+    - pip install tox-travis
+    # - pip install coverage
+    # - pip install coveralls
+
+# run the tests
+# relying on tox (see tox.ini); tox-travis will take care of management details
+script:
+    - tox
+
+# after running the tests (with coverage), report to coveralls
+after_success:
+    # - coverage combine --append
+    # - coverage report
+    # - coveralls

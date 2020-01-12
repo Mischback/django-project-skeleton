@@ -19,18 +19,17 @@ Status:
     maintained, in development
 
 Version:
-    1.3
+    1.4
 
 Django Version:
-    1.11
-
+    3.0, 2.2, 2.1, 2.0, 1.11
 
 
 Usage
 -----
 
 To use this repository just use the ``template`` option of `django-admin
-<https://docs.djangoproject.com/en/1.11/ref/django-admin/#startproject>`_::
+<https://docs.djangoproject.com/en/2.2/ref/django-admin/#startproject>`_::
 
     $ django-admin startproject --template=https://github.com/Mischback/django-project-skeleton/archive/master.zip [projectname]
 

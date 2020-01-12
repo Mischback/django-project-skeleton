@@ -22,6 +22,7 @@ Your project will look like this::
     │   └── __init__.py
     ├── configs/
     │   ├── apache2_vhost.sample
+    │   ├── Makefile.sample
     │   └── README
     ├── doc/
     │   ├── Makefile
