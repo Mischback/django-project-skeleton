@@ -1,5 +1,9 @@
 # Travis-CI configuration file
 
+branches:
+    except:
+        - master
+
 sudo: false
 
 # language settings
