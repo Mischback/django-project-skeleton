@@ -15,9 +15,9 @@ needs for new Django projects. Please feel free to modify it to your own
 requirements but be aware that no changes will be made, that **I** do not
 consider usefull.
 
-**Additional note:** ``tox`` returns compatibility with Django versions 1.9,
-1.10, 1.11 and 2.0 for Python 2.7 (not Django 2.0) and Python 3.5. I assume,
-that Python 3.4 and 3.6 will work aswell.
+**Additional note:** Compatibility checks are made using ``Travis`` and ``tox``.
+Please see :ref:`label-versions` to find a suitable version of this repository for
+your development needs.
 
 Notable Features
 ----------------
@@ -43,8 +43,8 @@ Hall of Fame
 ------------
 
 It's been a while, I even missed some Django-releases completely. Some guys at
-Github picked up the project and made some changes to keep it in line with 
-Django-releases. I grabbed some code from the, so they are considered 
+Github picked up the project and made some changes to keep it in line with
+Django-releases. I grabbed some code from the, so they are considered
 *Contributors* to this project and should be mentioned here:
 
 
