@@ -1,8 +1,14 @@
 .SILENT:
-.PHONY: all clean current doc doc-srv serve tox
+.PHONY: clean current default doc doc-srv help serve tox
 
 
-all:
+default: help
+	echo ""
+	echo "You need to specify a subcommand."
+	exit 1
+
+
+help:
 	echo ""
 	echo "Development utilities"
 	echo "  clean        Removes all temporary files"
