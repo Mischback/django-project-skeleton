@@ -1,0 +1,39 @@
+# experimental .dockerignore
+
+# do NOT track Python compilation stuff
+*.py[cod]
+**/__python__
+
+# ignore .git-related stuff
+.git
+**/.gitignore
+
+# ignore tox-related stuff
+.tox
+tox.ini
+
+# ignore any development related files
+.dockerignore
+.editorconfig
+.travis.yml
+Makefile
+
+# do NOT include ANY readme files
+**/README*
+
+# do NOT include the documentation
+# TODO: the original doc-folder of django-project-skeleton should be removed
+#   during initialising the project.
+doc
+
+# do not include the Dockerfiles
+configs/Docker
+
+# do not include any samples
+**/*.sample
+
+# I started to put temporary notes into TODO files
+**/*.todo
+
+# TODO: .gitignore excludes compiled language files. Is it safe to exclude the
+#   uncompiled language files for 'production'?
