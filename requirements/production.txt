@@ -1,0 +1,3 @@
+# currently used Django version
+Django==2.2.9
+gunicorn
