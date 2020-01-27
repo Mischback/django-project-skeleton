@@ -30,6 +30,12 @@ RUN pip install --upgrade pip
 ##############################################################################
 FROM stage01_activate_venv as stage02_building_wheels
 
+# set environment variables
+# TODO: Compare this to tox's settings!
+# TODO: Check if these are still valid for "production"!
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 COPY ./requirements/production.txt ./requirements.txt
 
 # build wheels from requirements
@@ -46,12 +52,13 @@ FROM stage01_activate_venv as stage03_installing_packages
 # set environment variables
 # TODO: Compare this to tox's settings!
 # TODO: Check if these are still valid for "production"!
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+#ENV PYTHONDONTWRITEBYTECODE 1
+#ENV PYTHONUNBUFFERED 1
 
 # install dependencies
 COPY --from=stage02_building_wheels /wheels /wheels
-RUN pip install --no-cache /wheels/*
+RUN pip install --no-cache /wheels/* \
+    && rm -rf /wheels
 
 
 ##############################################################################
@@ -64,6 +71,10 @@ RUN pip install --no-cache /wheels/*
 FROM stage03_installing_packages
 
 # create a user to be used (meaning: we won't run with root-permissions!)
-#RUN useradd --create-home pythonuser
-#USER pythonuser
-#WORKDIR /home/pythonuser
+RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser \
+    && mkdir /home/pythonuser
+WORKDIR /home/pythonuser
+COPY . .
+RUN chown -R 2342:65534 *
+
+USER pythonuser
