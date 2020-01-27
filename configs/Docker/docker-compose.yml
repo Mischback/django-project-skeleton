@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+    django:
+        build:
+            context: ../../
+            dockerfile: configs/Docker/django/Dockerfile
+        # this should *magically* include a hash/datetime/unique identifier
+        image: dps-testing:653ab5f
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+            - 8000:8000

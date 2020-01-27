@@ -55,3 +55,6 @@ docker/test-build-context:
 		CMD find ." \
 	| docker build -t test-build-context -f- . \
 	&& docker container run --rm test-build-context
+
+docker/build:
+	docker-compose -f configs/Docker/docker-compose.yml build
