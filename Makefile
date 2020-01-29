@@ -1,5 +1,8 @@
 .SILENT:
-.PHONY: clean current default doc doc-srv help serve tox
+.PHONY: clean current default doc doc-srv help serve tox \
+		docker/build docker/test-build-context
+
+DPS_COMMIT_SHA1:=$(shell git rev-parse --short HEAD)
 
 
 default: help
@@ -57,4 +60,5 @@ docker/test-build-context:
 	&& docker container run --rm test-build-context
 
 docker/build:
+	DPS_COMMIT_SHA1=$(DPS_COMMIT_SHA1) \
 	docker-compose -f configs/Docker/docker-compose.yml build
