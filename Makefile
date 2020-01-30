@@ -2,7 +2,11 @@
 .PHONY: clean current default doc doc-srv help serve tox \
 		docker/build docker/test-build-context
 
-DPS_COMMIT_SHA1:=$(shell git rev-parse --short HEAD)
+DPS_DOCKER_REPO:="mischback/dps"
+DPS_GIT_COMMIT_BRANCH:=$(shell git rev-parse --abbrev-ref HEAD)
+DPS_GIT_COMMIT_SHA1:=$(shell git rev-parse --short HEAD)
+
+DPS_DOCKER_TAG="$(DPS_DOCKER_REPO):$(DPS_GIT_COMMIT_BRANCH)-$(DPS_GIT_COMMIT_SHA1)"
 
 
 default: help
@@ -60,5 +64,6 @@ docker/test-build-context:
 	&& docker container run --rm test-build-context
 
 docker/build:
-	DPS_COMMIT_SHA1=$(DPS_COMMIT_SHA1) \
+	DPS_DOCKER_TAG=$(DPS_DOCKER_TAG) \
 	docker-compose -f configs/Docker/docker-compose.yml build
+	docker tag $(DPS_DOCKER_TAG) "$(DPS_DOCKER_REPO):$(DPS_GIT_COMMIT_BRANCH)-current"

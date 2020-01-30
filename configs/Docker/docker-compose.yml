@@ -6,7 +6,7 @@ services:
             context: ../../
             dockerfile: configs/Docker/django/Dockerfile
         # this should *magically* include a hash/datetime/unique identifier
-        image: mischback/dps:testing-${DPS_COMMIT_SHA1}
+        image: ${DPS_DOCKER_TAG}
         command: python manage.py runserver 0.0.0.0:8000
         ports:
             - 8000:8000
