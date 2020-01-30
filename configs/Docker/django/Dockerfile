@@ -20,31 +20,35 @@ RUN pip install --upgrade pip
 
 FROM base as requirements_compiler
 
-# TODO: install the requirements for Python dependency management
-# RUN pip install pip-tools
+# install the requirements for Python dependency management
+RUN pip install pip-tools
 
-# TODO: fetch the requirements-directory
-# COPY ./requirements/*.in /requirements
+# fetch the requirements-directory
+COPY ./requirements/*.in /requirements/
 
-# TODO: actually build the requirements for production environment
+# actually build the requirements for production environment
 # TODO: if layered/included requirements are used, the files have to be compiled
 #   in the correct order.
-# RUN pip-compile --generate-hashes \
-#         --output-file /requirements/common.txt \
-#         /requirements/common.in && \
-#     pip-compile --generate-hashes \
-#         --output-file /requirements/production.txt \
-#         /requirements/production.in
+RUN pip-compile \
+        --allow-unsafe \
+        --generate-hashes \
+        --output-file /requirements/common.txt \
+        /requirements/common.in && \
+    pip-compile \
+        --allow-unsafe \
+        --generate-hashes \
+        --output-file /requirements/production.txt \
+        /requirements/production.in
 
 
 FROM base as venv_builder
 
 # fetch the production requirements
-COPY ./requirements/production.txt ./requirements.txt
-# COPY --from=requirements_compiler /requirements/production.txt ./requirements.txt
+# COPY ./requirements/production.txt ./requirements.txt
+COPY --from=requirements_compiler /requirements/*.txt /requirements/
 
 # actually install the requirements into the virtual environment
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /requirements/common.txt -r /requirements/production.txt
 
 
 FROM python:3.8-slim-buster as django_production
