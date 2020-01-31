@@ -1,5 +1,6 @@
 .SILENT:
-.PHONY: clean current default doc doc-srv help serve tox \
+.PHONY: clean current default doc doc-srv help requirements requirements-force \
+		serve tox \
 		docker/build docker/test-build-context
 
 DPS_DOCKER_REPO:="mischback/dps"
@@ -47,6 +48,13 @@ doc:
 
 doc-srv: doc
 	tox -q -e doc-srv
+
+requirements:
+	tox -q -e build_requirements
+
+requirements-force:
+	touch requirements/*.in
+	$(MAKE) requirements
 
 serve:
 	tox -q -e run
