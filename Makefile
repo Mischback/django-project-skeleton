@@ -1,7 +1,11 @@
 .SILENT:
 .PHONY: clean current default doc doc-srv help requirements requirements-force \
 		serve tox \
-		docker/build docker/test-build-context
+		docker/build docker/test-build-context \
+		.docker/build .docker/test-build-context
+
+DOCKER_CMD:=docker
+DOCKER_COMPOSE_CMD:=docker-compose
 
 DPS_DOCKER_REPO:="mischback/dps"
 DPS_GIT_COMMIT_BRANCH:=$(shell git rev-parse --abbrev-ref HEAD)
@@ -62,7 +66,18 @@ serve:
 tox:
 	tox -q
 
+docker/build: requirements
+	sudo $(MAKE) .docker/build
+
+.docker/build:
+	DPS_DOCKER_TAG=$(DPS_DOCKER_TAG) \
+	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml build
+	$(DOCKER_CMD) tag $(DPS_DOCKER_TAG) "$(DPS_DOCKER_REPO):$(DPS_GIT_COMMIT_BRANCH)-current"
+
 docker/test-build-context:
+	sudo $(MAKE) .docker/test-build-context
+
+.docker/test-build-context:
 	echo " \
 		FROM busybox\n \
 		COPY . /build-context\n \
@@ -70,8 +85,3 @@ docker/test-build-context:
 		CMD find ." \
 	| docker build -t test-build-context -f- . \
 	&& docker container run --rm test-build-context
-
-docker/build:
-	DPS_DOCKER_TAG=$(DPS_DOCKER_TAG) \
-	docker-compose -f configs/Docker/docker-compose.yml build
-	docker tag $(DPS_DOCKER_TAG) "$(DPS_DOCKER_REPO):$(DPS_GIT_COMMIT_BRANCH)-current"
