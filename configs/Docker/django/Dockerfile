@@ -54,6 +54,10 @@ WORKDIR /home/pythonuser
 # fetch the virtual environment from base
 COPY --from=base --chown=2342:65534 /venv /venv
 
+# actually activate this virtual environment
+ENV VIRTUAL_ENV=/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
 # fetch the actual project files
 COPY --chown=2342:65534 . .
 

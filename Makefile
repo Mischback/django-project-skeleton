@@ -43,6 +43,8 @@ help:
 clean:
 	find . -iname "*.pyc" -delete
 	find . -iname "__pycache__" -delete
+	rm requirements/common.txt
+	rm requirements/production.txt
 
 current:
 	tox -q -e util
