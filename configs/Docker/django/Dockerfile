@@ -63,3 +63,6 @@ COPY --chown=2342:65534 . .
 
 # drop user privileges
 USER pythonuser
+
+# start the Django development server by default
+CMD ["python", "manage.py", "runserver"]
