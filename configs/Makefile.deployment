@@ -60,7 +60,7 @@ django/flush:
 	# flushes the database
 	$(MAKE) internal/django-mgmt django_cmd="flush"
 
-djang/flush-plan: django/sqlflush
+django/flush-plan: django/sqlflush
 
 django/flush-noinput:
 	# flushes the database without any prompts
@@ -213,18 +213,26 @@ internal/django-mgmt: internal/tox/dev-django
 internal/django/raw:
 	$(DJANGOADMIN_CMD) $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY) --settings={{ project_name }}.settings.development
 
-internal/tox/dev-django:
+internal/tox/dev-django: util/requirements
 	$(TOX_CMD) dev-django -- $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY)
+
+util/requirements:
+	$(TOX_CMD) build_requirements
+
+util/requirements-force:
+	touch requirements/*.in
+	$(MAKE) util/requirements
 
 .PHONY: run \
 		\
         dev/check dev/migrate dev/runserver dev/static \
 		\
         internal/django-mgmt internal/django/raw internal/tox/dev-django \
+        util/requirements util/requirements-force \
 		\
         django/check django/compilemessages django/createcachetable \
 		django/dbshell django/diffsettings django/diffsettings-all \
-		django/diffsettings-prod django/dumpdata django/flush djang/flush-plan \
+		django/diffsettings-prod django/dumpdata django/flush django/flush-plan \
 		django/flush-noinput django/inspectdb django/loaddata \
 		django/makemessages django/makemigrations django/migrate \
 		django/migrate-plan django/runserver django/runserver-external4 \

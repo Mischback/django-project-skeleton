@@ -1,0 +1,109 @@
+[tox]
+# start with an empty list here
+# TODO: verify that this actually **might** be empty!
+envlist =
+
+# do not perform packaging operations
+skipsdist = true
+
+# don't stop on missing interpreters
+skip_missing_interpreters = true
+
+[testenv:base]
+basepython = python3
+envdir = {toxworkdir}/base
+deps =
+    -rrequirements/common.txt
+    -rrequirements/development.txt
+skip_install = true
+commands =
+    {posargs:{envbindir}/python {{ project_name }}/manage.py version --settings={{ project_name }}.settings.development}
+
+[testenv:dev-django]
+basepython = {[testenv:base]basepython}
+envdir = {[testenv:base]envdir}
+deps = {[testenv:base]deps}
+skip_install = {[testenv:base]skip_install}
+commands =
+    {envbindir}/python {{ project_name }}/manage.py {posargs:version} --settings={{ project_name }}.settings.development
+
+[testenv:test-django]
+basepython = {[testenv:base]basepython}
+envdir = {[testenv:base]envdir}
+deps =
+    {[testenv:base]deps}
+    coverage
+skip_install = {[testenv:base]skip_install}
+commands =
+    coverage run --parallel tests/runtests.py {posargs}
+
+[testenv:build_requirements]
+basepython = {[testenv:base]basepython}
+envdir = {toxworkdir}/build_requirements
+deps =
+    pip-tools
+skip_install = true
+changedir = {toxinidir}/requirements
+whitelist_externals =
+    make
+commands =
+    {posargs:make}
+
+
+################################################################################
+# The following sections actually provide settings for various tools
+################################################################################
+
+# This sections sets the options for coverage collecting
+[coverage:run]
+branch = True
+omit =
+    */__init__.py
+    */migrations/*
+    */site-packages/*
+
+# This sections sets the options for coverage reporting
+[coverage:report]
+precision = 1
+show_missing = True
+fail_under = 95
+
+
+# This section actually sets the options for flake8
+[flake8]
+exclude =
+    .git,
+    .tox,
+
+# as per Django's Coding Style
+# see https://docs.djangoproject.com/en/dev/internals/contributing/writing-code/coding-style/
+max-line-length = 119
+
+ignore =
+    # as per Django's Coding Style
+    W601,
+
+
+# This section actually sets the options for isort
+[isort]
+# these settings are taken from Django's isort configuration
+# see https://github.com/django/django/blob/2.0.2/setup.cfg
+combine_as_imports = True
+default_section = THIRDPARTY
+include_trailing_comma = True
+line_length = 79
+multi_line_output = 5
+not_skip = __init__.py
+
+# project specific isort options
+known_first_party = {{ project_name }}
+known_django = django
+sections = FUTURE, STDLIB, DJANGO, THIRDPARTY, FIRSTPARTY, LOCALFOLDER
+import_heading_stdlib = Python imports
+import_heading_django = Django imports
+import_heading_firstparty = app imports
+import_heading_localfolder = app imports
+import_heading_thirdparty = external imports
+skip_glob =
+    .tox,
+    */migrations/*

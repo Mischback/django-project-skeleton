@@ -1,5 +1,5 @@
 .SILENT:
-.PHONY: clean init \
+.PHONY: clean init tree \
 		docker/test-build-context .docker/test-build-context
 
 DOCKER_CMD:=docker
@@ -24,6 +24,11 @@ clean:
 
 init:
 	echo "Initialising repository..."
+	cp ./configs/tox.deployment ./tox.ini
+	cp ./configs/Makefile.deployment ./Makefile
+
+tree:
+	tree -a -I ".git|.tox|doc|run" --dirsfirst
 
 docker/test-build-context:
 	sudo $(MAKE) .docker/test-build-context
