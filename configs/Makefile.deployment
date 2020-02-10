@@ -1,15 +1,20 @@
-# tox command (this assumes, that tox is available in your Python environment and your PATH is setup to allow direct calls)
+# tox command (this assumes, that tox is available in your Python environment
+# and your PATH is setup to allow direct calls)
 TOX_CMD := tox -q -e
 
 # cmd to run django management commands
 # if you rather use 'manage.py' instead of 'django-admin', switch the lines
 #
-# this assumes, that django is available in your Python environment and your PATH is setup to allow direct calls)
+# this assumes, that django is available in your Python environment and your
+# PATH is setup to allow direct calls)
 # DJANGOADMIN_CMD := django-admin
-# this assumes, that your python executable is in your PATH and is indead accessible with python. Adjust according to your system's configuration
+#
+# this assumes, that your Python executable is in your PATH and is indeed
+# accessible with python. Adjust according to your system's configuration
 DJANGOADMIN_CMD := python {{ project_name }}/manage.py
 
 DJANGOADMIN_CMD_VERBOSITY := --verbosity=1    # {0,1,2,3}; 1 is default by Django
+
 
 ### shortcut commands ###
 run: dev/runserver
@@ -69,12 +74,12 @@ django/flush-noinput:
 django/inspectdb:
 	# will not be wrapped, because this is a very edgy use case
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"inspectdb [table [table ...]]\""
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"inspectdb [table [table ...]]\""
 
 django/loaddata:
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is currently not implemented. If you are frequently loading fixtures into your database, you may modify the project's Makefile \"django/loaddata\" target"
+	$(ECHO) "This command is currently not implemented. If you are frequently loading fixtures into your database, you may modify the project's Makefile \"django/loaddata\" target"
 
 django/makemessages:
 	# TODO: Test this command! Is it sufficient or should '--all' be passed aswell?
@@ -111,8 +116,8 @@ django/runserver-external6: django/migrate
 django/sendtestemail:
 	# will not be wrapped, because this is a very edgy use case
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sendtestemail [email [email ...]]\""
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sendtestemail [email [email ...]]\""
 
 django/shell:
 	# runs a python shell with the project's development settings
@@ -132,49 +137,49 @@ django/sqlflush:
 django/sqlmigrate:
 	# will not be wrapped, because this is a very edgy use case
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sqlmigrate app_label migration_name\""
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sqlmigrate app_label migration_name\""
 
 django/sqlsequencereset:
 	# will not be wrapped, because this is a very edgy use case
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sqlsequencereset app_label [app_label ...]\""
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"sqlsequencereset app_label [app_label ...]\""
 
 django/squashmigrations:
 	# will not be wrapped, because this is a very edgy use case
 	# this command is provided for completeness, but should not be necessary for a Django project (relevance for apps!)
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"squashmigrations app_label [start_migration_name] migration_name\""
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments."
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"squashmigrations app_label [start_migration_name] migration_name\""
 
 django/startapp:
 	# will not be wrapped, because this is a very edgy use case
 	# TODO: Can this output be colored, i.e. red?
-	echo "This command is beyond the scope of this project skeleton and too complex to be support by a Makefile"
-	echo "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"startapp name [directory]\""
-	echo "[directory] should be specified as \"apps/app_name\" if you wish to develop the app inside of this project."
+	$(ECHO) "This command is beyond the scope of this project skeleton and too complex to be support by a Makefile"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using django-admin directly or by tox -e dev-django -- \"startapp name [directory]\""
+	$(ECHO) "[directory] should be specified as \"apps/app_name\" if you wish to develop the app inside of this project."
 	# TODO: include a link to the definition of 'pluggable apps' for reference and to explain, why this might be a bad idea!
 
 django/startproject:
 	# will not be wrapped - obviously. This Makefile aims to manage an existing project
-	echo "This command is not provided. When you read this message, you should already have created a project."
+	$(ECHO) "This command is not provided. When you read this message, you should already have created a project."
 
 django/test:
 	# will not be wrapped. Testing is handled in other make targets.
-	echo "This command is not provided. Testing should be performed using the dedicated test related targets."
-	echo "Run \"make help\" for a list of commands and focus on the \"testing\" section."
+	$(ECHO) "This command is not provided. Testing should be performed using the dedicated test related targets."
+	$(ECHO) "Run \"make help\" for a list of commands and focus on the \"testing\" section."
 
 django/testserver:
 	# will not be wrapped. Testing is handled in other make targets.
-	echo "This command is not provided. Testing should be performed using the dedicated test related targets."
-	echo "Run \"make help\" for a list of commands and focus on the \"testing\" section."
+	$(ECHO) "This command is not provided. Testing should be performed using the dedicated test related targets."
+	$(ECHO) "Run \"make help\" for a list of commands and focus on the \"testing\" section."
 
 django/auth/changepassword:
 	# TODO: Can this output be colored, i.e. red?
 	# TODO: test this! with a matching user account and without...
-	echo "Trying to change the password of a Django user that matches your username..."
-	echo "If you want to change the password of another user, either using django-admin directly or by tox -e dev-django -- \"changepassword <username>\""
+	$(ECHO) "Trying to change the password of a Django user that matches your username..."
+	$(ECHO) "If you want to change the password of another user, either using django-admin directly or by tox -e dev-django -- \"changepassword <username>\""
 	$(MAKE) internal/django-mgmt django_cmd="changepassword"
 
 django/auth/createsuperuser:
@@ -182,7 +187,7 @@ django/auth/createsuperuser:
 
 django/auth/createsuperuser-noinput:
 	# TODO: This feature will be added, if Django>3.0 will be the main supported version!
-	echo "This feature will be implemented in a future release!"
+	$(ECHO) "This feature will be implemented in a future release!"
 	$(MAKE) django/auth/createsuperuser
 
 django/contenttypes/remove_stale:
@@ -223,7 +228,24 @@ util/requirements-force:
 	touch requirements/*.in
 	$(MAKE) util/requirements
 
-.PHONY: run \
+
+current:
+	$(ECHO) "$(CRED)red$(CRES) / $(CGRE)green$(CRES) / $(CYEL)yellow$(CRES) / $(CCYA)blue$(CRES)"
+
+
+# prepare coloring of echo outputs
+CRED := $(shell tput setaf 1 2>/dev/null)
+CGRE := $(shell tput setaf 2 2>/dev/null)
+CYEL := $(shell tput setaf 3 2>/dev/null)
+CCYA := $(shell tput setaf 6 2>/dev/null)
+CRES := $(shell tput sgr0 2>/dev/null)
+ECHO := echo
+
+# suppress unintended output
+.SILENT:
+
+.PHONY: current \
+        run \
 		\
         dev/check dev/migrate dev/runserver dev/static \
 		\
