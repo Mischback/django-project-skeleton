@@ -6,7 +6,7 @@ services:
             context: ../../
             dockerfile: configs/Docker/django/Dockerfile
         # this should *magically* include a hash/datetime/unique identifier
-        image: ${DPS_DOCKER_TAG}
+        image: ${DPS_BUILD_NAME_PREFIX}/django:${DPS_BUILD_ID}
         command: python manage.py runserver 0.0.0.0:8000
         ports:
             - 8000:8000
