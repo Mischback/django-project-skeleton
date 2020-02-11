@@ -3,7 +3,6 @@
 		docker/test-build-context .docker/test-build-context
 
 DOCKER_CMD:=docker
-DOCKER_COMPOSE_CMD:=docker-compose
 
 DPS_DOCKER_REPO:="mischback/dps"
 
