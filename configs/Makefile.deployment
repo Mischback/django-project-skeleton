@@ -57,6 +57,7 @@ DOCKER_COMPOSE_CMD := $(shell which docker-compose)
 
 ### shortcut commands ###
 run: dev/runserver
+build: docker/build
 
 
 ### development commands ###

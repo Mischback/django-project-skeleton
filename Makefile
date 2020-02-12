@@ -26,6 +26,9 @@ init:
 	cp ./configs/tox.deployment ./tox.ini
 	cp ./configs/Makefile.deployment ./Makefile
 
+test/docker-build:
+	tox -q -e docker-testing
+
 tree:
 	tree -a -I ".git|.tox|doc|run" --dirsfirst
 
