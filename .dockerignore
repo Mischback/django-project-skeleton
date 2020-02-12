@@ -32,6 +32,9 @@ configs/Docker
 # do not include any samples
 **/*.sample
 
+# do not include the deployment specific files
+**/*.deployment
+
 # I started to put temporary notes into TODO files
 **/*.todo
 
