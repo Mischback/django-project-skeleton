@@ -15,7 +15,7 @@
 FROM python:3.8-slim-buster as base
 
 # fetch our custom install script
-COPY bin/apt-install /usr/local/bin/
+COPY configs/Docker/bin/apt-install /usr/local/bin/
 
 # set environment variables
 # TODO: Check if these are still valid for "production"!
@@ -50,7 +50,7 @@ RUN pip install --no-cache-dir \
 FROM python:3.8-slim-buster as django_production
 
 # fetch our custom install script
-COPY bin/apt-install /usr/local/bin/
+COPY configs/Docker/bin/apt-install /usr/local/bin/
 
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser && \

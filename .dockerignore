@@ -27,8 +27,13 @@ requirements/*.in
 #   during initialising the project.
 doc
 
-# do not include the Dockerfiles
+# do NOT include the bin directory (these scripts are not used in production)
+bin
+
+# do NOT include the Docker-related files
 configs/Docker
+# but DO include the production-related scripts
+!configs/Docker/bin/apt-install
 
 # do not include any samples
 **/*.sample
