@@ -5,8 +5,11 @@ services:
         build:
             context: ../../
             dockerfile: configs/Docker/django/Dockerfile
-        # this should *magically* include a hash/datetime/unique identifier
-        image: ${DPS_BUILD_NAME_PREFIX}/django:${DPS_BUILD_ID}
         command: python manage.py runserver 0.0.0.0:8000
+        # providing the build and the image directive automatically tags the image
+        # automatic tagging is performed with environment variables provided
+        # through the Makefile and results in a tag with either a git commit hash
+        # or a datetime stamp (see Makefile.deployment)
+        image: ${DPS_BUILD_NAME_PREFIX}/django:${DPS_BUILD_ID}
         ports:
             - 8000:8000
