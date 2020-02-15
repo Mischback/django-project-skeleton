@@ -34,6 +34,7 @@ bin
 configs/Docker
 # but DO include the production-related scripts
 !configs/Docker/bin/apt-install
+!configs/Docker/bin/django-run.sh
 
 # do not include any samples
 **/*.sample

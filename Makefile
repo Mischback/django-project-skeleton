@@ -43,6 +43,7 @@ clean:
 init:
 	echo "Initialising repository..."
 	cp ./configs/tox.deployment ./tox.ini
+	mv ./configs/Docker/bin/django-run.deployment ./configs/Docker/bin/django-run.sh
 	cp ./configs/Makefile.deployment ./Makefile
 
 docker/build:
