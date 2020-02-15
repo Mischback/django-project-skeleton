@@ -68,4 +68,4 @@ tree:
 
 .docker/run:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
-	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up
+	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up django
