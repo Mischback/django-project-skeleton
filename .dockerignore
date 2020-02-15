@@ -16,7 +16,8 @@ tox.ini
 .dockerignore
 .editorconfig
 .travis.yml
-Makefile
+**/Makefile
+requirements/*.in
 
 # do NOT include ANY readme files
 **/README*
