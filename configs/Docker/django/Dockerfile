@@ -14,6 +14,9 @@
 #       the Python packages, they must be installed here aswell!
 FROM python:3.8-slim-buster as base
 
+# fetch our custom install script
+COPY bin/apt-install /usr/local/bin/
+
 # set environment variables
 # TODO: Check if these are still valid for "production"!
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -45,6 +48,9 @@ RUN pip install --no-cache-dir \
 # TODO: If there are any system dependencies, they have to be installed
 #       directly into this image.
 FROM python:3.8-slim-buster as django_production
+
+# fetch our custom install script
+COPY bin/apt-install /usr/local/bin/
 
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser && \
