@@ -274,6 +274,7 @@ util/requirements-force:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
 	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml build
 	$(DOCKER_CMD) tag "$(DPS_BUILD_NAME_PREFIX)/django:$(DPS_BUILD_ID)" "$(DPS_BUILD_NAME_PREFIX)/django:latest"
+	$(DOCKER_CMD) tag "$(DPS_BUILD_NAME_PREFIX)/nginx:$(DPS_BUILD_ID)" "$(DPS_BUILD_NAME_PREFIX)/nginx:latest"
 
 .internal/docker/run/django:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \

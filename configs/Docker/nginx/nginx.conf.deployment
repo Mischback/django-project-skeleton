@@ -1,0 +1,39 @@
+
+worker_processes 1;
+
+events {
+    worker_connections 1024;
+    accept_mutex off;
+}
+
+http {
+
+    # define the Django server
+    upstream app_server {
+        server django:8000;
+    }
+
+    # if no Host match, close the connection to prevent host spoofing
+    server {
+        listen 80 default_server;
+        return 444;
+    }
+
+    server {
+        listen 80;
+        client_max_body_size 4G;
+
+        server_name deb10.massive.home;
+
+        keepalive_timeout 5;
+
+        location / {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-Host {{ project_name }};
+            proxy_set_header Host $http_host;
+            proxy_redirect off;
+            proxy_pass http://app_server;
+        }
+    }
+}

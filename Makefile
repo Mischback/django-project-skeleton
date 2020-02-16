@@ -44,6 +44,7 @@ init:
 	echo "Initialising repository..."
 	cp ./configs/tox.deployment ./tox.ini
 	mv ./configs/Docker/bin/django-run.deployment ./configs/Docker/bin/django-run.sh
+	mv ./configs/Docker/nginx/nginx.conf.deployment ./configs/Docker/nginx/nginx.conf
 	cp ./configs/Makefile.deployment ./Makefile
 
 docker/build:
@@ -69,4 +70,4 @@ tree:
 
 .docker/run:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
-	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up django
+	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up

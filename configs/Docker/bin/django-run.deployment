@@ -1,4 +1,6 @@
 #!/bin/sh
 
+export DJANGO_SETTINGS_MODULE="{{ project_name}}.settings.docker-nginx"
+
 exec gunicorn {{ project_name }}.wsgi:application \
                                     -b 0.0.0.0:8000
