@@ -1,11 +1,12 @@
-# for now fetch the development settings only
-from .development import *
+# fetch the common settings
+from .common import *
 
-# turn off all debugging
-DEBUG = False
+# ##### APPLICATION CONFIGURATION #########################
 
 # You will have to determine, which hostnames should be served by Django
 ALLOWED_HOSTS = []
+
+INSTALLED_APPS = DEFAULT_APPS
 
 # ##### SECURITY CONFIGURATION ############################
 
