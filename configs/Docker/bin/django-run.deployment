@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec gunicorn {{ project_name }}.wsgi:application \
+                                    -b 0.0.0.0:8000

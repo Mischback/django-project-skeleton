@@ -1,23 +1,15 @@
 # Python imports
 from os.path import join
 
-# project imports
+# fetch the common settings
 from .common import *
 
-# uncomment the following line to include i18n
-# from .i18n import *
-
-
-# ##### DEBUG CONFIGURATION ###############################
-DEBUG = True
+# ##### APPLICATION CONFIGURATION #########################
 
 # allow all hosts during development
 ALLOWED_HOSTS = ['*']
 
-# adjust the minimal login
-LOGIN_URL = 'core_login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = 'core_login'
+INSTALLED_APPS = DEFAULT_APPS
 
 
 # ##### DATABASE CONFIGURATION ############################
@@ -28,6 +20,6 @@ DATABASES = {
     }
 }
 
-# ##### APPLICATION CONFIGURATION #########################
 
-INSTALLED_APPS = DEFAULT_APPS
+# ##### DEBUG CONFIGURATION ###############################
+DEBUG = True

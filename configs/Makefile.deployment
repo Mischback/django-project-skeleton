@@ -1,0 +1,322 @@
+##### Makefile configuration section #####
+
+
+### Docker related constants ###
+
+# Docker images will be tagged with the following naming scheme:
+#   {[registry hostname]/[project name]}/[service]:[DPS_BUILD_ID]
+#       - registry hostname: optionally specifies a registry hostname
+#       - project name: the project's name as defined during 'startproject'
+#       - service: defines the service represented by the image, e.g. Django,
+#           nginx, postgre, ... The service is set in 'docker-compose.yml' and
+#           is hardcoded there.
+#       - DPS_BUILD_ID: automatically determined ID. Will fetch the current
+#           git commit SHA1 hash or provide a timestamp.
+#           See bin/get_build_id.sh
+#
+# DPS_BUILD_NAME_PREFIX is used to provide the [registry hostname], [hostname]
+# and [project name] (by default no [registry hostname] is provided).
+DPS_BUILD_NAME_PREFIX := "{{ project_name }}"
+
+
+### internal setup ###
+# These variables/constants define, how the project is managed.
+
+# main interface to run Django management commands
+#
+# internal/tox/dev-django will use tox environments to run Django managements
+#   commands.
+# internal/django/raw will directly call the Django management commands.
+internal/django-mgmt: internal/tox/dev-django
+# internal/django-mgmt: internal/django/raw
+
+# tox command (this assumes, that tox is available in your Python environment
+# and your PATH is setup to allow direct calls)
+TOX_CMD := tox -q -e
+
+# cmd to run django management commands
+# if you rather use 'manage.py' instead of 'django-admin', switch the lines
+#
+# this assumes, that django is available in your Python environment and your
+# PATH is setup to allow direct calls)
+# DJANGOADMIN_CMD := django-admin
+#
+# this assumes, that your Python executable is in your PATH and is indeed
+# accessible with python. Adjust according to your system's configuration
+DJANGOADMIN_CMD := python manage.py
+
+# easily control the verbosity of Django commands
+DJANGOADMIN_CMD_VERBOSITY := --verbosity=1    # {0,1,2,3}; 1 is default by Django
+
+# Docker command
+DOCKER_CMD := $(shell which docker)
+
+# Docker compose command
+DOCKER_COMPOSE_CMD := $(shell which docker-compose)
+
+
+### shortcut commands ###
+run: dev/runserver
+build: docker/build
+
+
+### development commands ###
+dev/check: django/check
+dev/migrate: django/migrate
+dev/runserver: django/runserver-external4
+dev/static: django/staticfiles/find
+
+
+### Django management commands ###
+django_cmd ?= ""
+
+django/check:
+	$(MAKE) .internal/django-mgmt django_cmd="check"
+
+django/compilemessages:
+	$(MAKE) .internal/django-mgmt django_cmd="compilemessages"
+
+django/createcachetable:
+	$(MAKE) .internal/django-mgmt django_cmd="createcachetable"
+
+django/dbshell:
+	# requires the command line client to be available in user's PATH
+	# dynamically determines the desired command line client from settings file
+	$(MAKE) .internal/django-mgmt django_cmd="dbshell"
+
+django/diffsettings:
+	# compare with Django's default settings
+	# NOTE: compares the project's **development** settings with Django's defaults
+	$(MAKE) .internal/django-mgmt django_cmd="diffsettings"
+
+django/diffsettings-all:
+	# show all settings, even if they correspond with Django's defaults
+	# NOTE: compares the project's **development** settings with Django's defaults
+	$(MAKE) .internal/django-mgmt django_cmd="diffsettings --all"
+
+django/diffsettings-prod:
+	# compare **development** settings with **production** settings
+	$(MAKE) .internal/django-mgmt django_cmd="diffsettings --default={{ project_name }}.settings.production"
+
+django/dumpdata:
+	# apply indentation to increase readability
+	$(MAKE) .internal/django-mgmt django_cmd="dumpdata --indent=4"
+
+django/flush:
+	# flushes the database
+	$(MAKE) .internal/django-mgmt django_cmd="flush"
+
+django/flush-plan: django/sqlflush
+
+django/flush-noinput:
+	# flushes the database without any prompts
+	$(MAKE) .internal/django-mgmt django_cmd="flush --no-input"
+
+django/inspectdb:
+	# will not be wrapped, because this is a very edgy use case
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"inspectdb [table [table ...]]\"$(CRES).\n"
+
+django/loaddata:
+	$(ECHO) "This command is currently not implemented. If you are frequently loading fixtures into your database, you may modify the project's Makefile $(CCYA)\"django/loaddata\"$(CRES) target.\n"
+
+django/makemessages:
+	# TODO: Test this command! Is it sufficient or should '--all' be passed aswell?
+	$(MAKE) .internal/django-mgmt django_cmd="makemessages"
+
+django/makemigrations:
+	# this command is provided for completeness, but should not be necessary for a Django project (relevance for apps!)
+	$(MAKE) .internal/django-mgmt django_cmd="makemigrations"
+
+django/migrate:
+	# synchronize your models with your database
+	$(MAKE) .internal/django-mgmt django_cmd="migrate"
+
+django/migrate-plan:
+	# show the migration operations, without actually executing them
+	$(MAKE) .internal/django-mgmt django_cmd="migrate --plan"
+
+django/runserver: django/migrate
+	# runs the development server with default settings
+	# this will expose port 8000 on localhost, so it will not be accessible from another machine.
+	# see 'runserver-external[4|6]' for an alternative
+	$(MAKE) .internal/django-mgmt django_cmd="runserver"
+
+django/runserver-external4: django/migrate
+	# runs the development server with settings that allow access from another machine
+	# the server will be exposed on port 8000
+	$(MAKE) .internal/django-mgmt django_cmd="runserver 0.0.0.0:8000"
+
+django/runserver-external6: django/migrate
+	# runs the development server with settings that allow access from another machine
+	# the server will be exposed on port 8000
+	$(MAKE) .internal/django-mgmt django_cmd="runserver -6"
+
+django/sendtestemail:
+	# will not be wrapped, because this is a very edgy use case
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"sendtestemail [email [email ...]]\"$(CRES).\n"
+
+django/shell:
+	# runs a python shell with the project's development settings
+	$(MAKE) .internal/django-mgmt django_cmd="shell"
+
+django/showmigrations:
+	$(MAKE) .internal/django-mgmt django_cmd="showmigrations"
+
+django/showmigrations-plan:
+	# show the migration operations, without actually executing them
+	$(MAKE) .internal/django-mgmt django_cmd="showmigrations --plan"
+
+django/sqlflush:
+	# prints the SQL statements that would be executed for a 'flush' (see above)
+	$(MAKE) .internal/django-mgmt django_cmd="sqlflush"
+
+django/sqlmigrate:
+	# will not be wrapped, because this is a very edgy use case
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"sqlmigrate app_label migration_name\"$(CRES).\n"
+
+django/sqlsequencereset:
+	# will not be wrapped, because this is a very edgy use case
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"sqlsequencereset app_label [app_label ...]\"$(CRES).\n"
+
+django/squashmigrations:
+	# will not be wrapped, because this is a very edgy use case
+	# this command is provided for completeness, but should not be necessary for a Django project (relevance for apps!)
+	$(ECHO) "This command is beyond the scope of this project skeleton and requires manual, project-specific adjustments.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"squashmigrations app_label [start_migration_name] migration_name\"$(CRES).\n"
+
+django/startapp:
+	# will not be wrapped, because this is a very edgy use case
+	$(ECHO) "This command is beyond the scope of this project skeleton and too complex to be support by a Makefile.\n"
+	$(ECHO) "I propose to run the command manually with your specific requirements, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"startapp name [directory]\"$(CRES).\n"
+	$(ECHO) "[directory] should be specified as $(CCYA)\"apps/app_name\"$(CRES) if you wish to develop the app inside of this project.\n"
+	# TODO: include a link to the definition of 'pluggable apps' for reference and to explain, why this might be a bad idea!
+
+django/startproject:
+	# will not be wrapped - obviously. This Makefile aims to manage an existing project
+	$(ECHO) "$(CRED)This command is not provided. When you read this message, you should already have created a project.$(CRES)\n"
+
+django/test:
+	# will not be wrapped. Testing is handled in other make targets.
+	$(ECHO) "$(CRED)This command is not provided. Testing should be performed using the dedicated test related targets.$(CRES)\n"
+	$(ECHO) "Run $(CCYA)\"make help\"$(CRES) for a list of commands and focus on the $(CCYA)\"testing\"$(CRES) section.\n"
+
+django/testserver:
+	# will not be wrapped. Testing is handled in other make targets.
+	$(ECHO) "$(CRED)This command is not provided. Testing should be performed using the dedicated test related targets.$(CRES)\n"
+	$(ECHO) "Run $(CCYA)\"make help\"$(CRES) for a list of commands and focus on the $(CCYA)\"testing\"$(CRES) section.\n"
+
+django/version:
+	$(MAKE) .internal/django-mgmt django_cmd="version"
+
+django/auth/changepassword:
+	# TODO: test this! with a matching user account and without...
+	$(ECHO) "Trying to change the password of a Django user that matches your username...\n"
+	$(ECHO) "If you want to change the password of another user, either using $(CCYA)django-admin$(CRES) directly or by $(CCYA)tox -e dev-django -- \"changepassword <username>\"$(CRES).\n"
+	$(MAKE) .internal/django-mgmt django_cmd="changepassword"
+
+django/auth/createsuperuser:
+	$(MAKE) .internal/django-mgmt django_cmd="createsuperuser"
+
+django/auth/createsuperuser-noinput:
+	# TODO: This feature will be added, if Django>3.0 will be the main supported version!
+	$(ECHO) "This feature will be implemented in a future release!\n"
+	$(MAKE) django/auth/createsuperuser
+
+django/contenttypes/remove_stale:
+	# only available if django.contrib.contenttypes is in INSTALLED_APPS
+	# TODO: check documentation; subcommands required?
+	$(MAKE) .internal/django-mgmt django_cmd="remove_stale_contenttypes"
+
+django/sessions/clear:
+	# only available if django.contrib.sessions is in INSTALLED_APPS
+	# TODO: check documentation; subcommands required?
+	$(MAKE) .internal/django-mgmt django_cmd="clearsessions"
+
+django/staticfiles/collect:
+	# only available if django.contrib.staticfiles is in INSTALLED_APPS
+	# TODO: check documentation; subcommands required?
+	$(MAKE) .internal/django-mgmt django_cmd="collectstatic"
+
+django/staticfiles/find:
+	# only available if django.contrib.staticfiles is in INSTALLED_APPS
+	# TODO: check documentation; subcommands required?
+	$(MAKE) .internal/django-mgmt django_cmd="findstatic"
+
+
+### Docker commands ###
+
+docker/build: util/requirements
+	sudo $(MAKE) .internal/docker/build
+
+docker/run: docker/run/django
+
+docker/run/django:
+	sudo $(MAKE) .internal/docker/run/django
+
+### Utility commands ###
+
+util/requirements:
+	$(TOX_CMD) build_requirements
+
+util/requirements-force:
+	touch requirements/*.in
+	$(MAKE) util/requirements
+
+
+.internal/django/raw:
+	$(DJANGOADMIN_CMD) $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY) --settings={{ project_name }}.settings.development
+
+.internal/docker/build:
+	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
+	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml build
+	$(DOCKER_CMD) tag "$(DPS_BUILD_NAME_PREFIX)/django:$(DPS_BUILD_ID)" "$(DPS_BUILD_NAME_PREFIX)/django:latest"
+
+.internal/docker/run/django:
+	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
+	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up django
+
+.internal/tox/dev-django: util/requirements
+	$(TOX_CMD) dev-django -- $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY)
+
+
+# prepare coloring of echo outputs
+ECHO := /usr/bin/printf
+
+CRED := $(shell tput setaf 1 2>/dev/null)
+CGRE := $(shell tput setaf 2 2>/dev/null)
+CYEL := $(shell tput setaf 3 2>/dev/null)
+CCYA := $(shell tput setaf 6 2>/dev/null)
+CRES := $(shell tput sgr0 2>/dev/null)
+
+DPS_USERNAME := $(shell id -un)
+DPS_BUILD_ID := $(shell ./bin/get_build_id.sh)
+
+# suppress unintended output
+.SILENT:
+
+.PHONY: current \
+        run \
+		\
+        dev/check dev/migrate dev/runserver dev/static \
+		\
+        .internal/django-mgmt .internal/django/raw .internal/tox/dev-django \
+        util/requirements util/requirements-force \
+		\
+        django/check django/compilemessages django/createcachetable \
+		django/dbshell django/diffsettings django/diffsettings-all \
+		django/diffsettings-prod django/dumpdata django/flush django/flush-plan \
+		django/flush-noinput django/inspectdb django/loaddata \
+		django/makemessages django/makemigrations django/migrate \
+		django/migrate-plan django/runserver django/runserver-external4 \
+		django/runserver-external6 django/sendtestemail django/shell \
+		django/showmigrations django/showmigrations-plan django/sqlflush \
+		django/sqlmigrate django/sqlsequencereset django/squashmigrations \
+		django/startapp django/startproject django/test django/testserver \
+		django/version \
+        django/auth/changepassword django/contenttypes/remove_stale \
+		django/sessions/clear django/staticfiles/collect \
+		django/staticfiles/find
