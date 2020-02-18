@@ -53,6 +53,9 @@ docker/build:
 docker/build-context:
 	sudo $(MAKE) .docker/build-context
 
+docker/images:
+	sudo $(MAKE) .docker/images
+
 docker/run:
 	sudo $(MAKE) .docker/run
 
@@ -67,6 +70,9 @@ tree:
 		CMD find ." | \
 	$(DOCKER_CMD) build -t "$(DPS_BUILD_NAME_PREFIX)/build-context:latest" -f- . && \
 	$(DOCKER_CMD) container run --rm "$(DPS_BUILD_NAME_PREFIX)/build-context:latest"
+
+.docker/images:
+	$(DOCKER_CMD) images
 
 .docker/run:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
