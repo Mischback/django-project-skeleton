@@ -35,6 +35,7 @@ configs/Docker
 # but DO include the production-related scripts/config files
 !configs/Docker/bin/apt-install
 !configs/Docker/bin/django-run.sh
+!configs/Docker/django/gunicorn_conf.py
 !configs/Docker/nginx/nginx.conf
 
 # do not include any samples
