@@ -11,8 +11,8 @@ services:
         # through the Makefile and results in a tag with either a git commit hash
         # or a datetime stamp (see Makefile.deployment)
         image: ${DPS_BUILD_NAME_PREFIX}/django:${DPS_BUILD_ID}
-        ports:
-            - 8000:8000
+        expose:
+            - "8000"
     nginx:
         build:
             context: ./nginx/
@@ -23,4 +23,4 @@ services:
         # or a datetime stamp (see Makefile.deployment)
         image: ${DPS_BUILD_NAME_PREFIX}/nginx:${DPS_BUILD_ID}
         ports:
-            - 80:80
+            - "80:80"
