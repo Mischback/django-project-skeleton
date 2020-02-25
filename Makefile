@@ -41,11 +41,15 @@ clean:
 	rm requirements/production.txt
 
 init:
-	echo "Initialising repository..."
-	cp ./configs/tox.deployment ./tox.ini
-	mv ./configs/Docker/bin/django-run.deployment ./configs/Docker/bin/django-run.sh
-	mv ./configs/Docker/nginx/nginx.conf.deployment ./configs/Docker/nginx/nginx.conf
-	cp ./configs/Makefile.deployment ./Makefile
+	# TODO: Include some output to this function
+	# create the final version of different files by removing the '.sample' suffix
+	mv ./configs/apache2_vhost.sample.template ./configs/apache2_vhost.sample
+	mv ./configs/Docker/bin/run-django.sh.template ./configs/Docker/bin/run-django.sh
+	mv ./configs/Docker/nginx/nginx.conf.template ./configs/Docker/nginx/nginx.conf
+	# switching the tox configuration file
+	mv ./configs/tox.deployment.template ./tox.ini
+	# switching the Makefile **should** be the last step
+	mv ./configs/Makefile.deployment.template ./Makefile
 
 docker/build:
 	tox -q -e docker-testing
@@ -60,7 +64,7 @@ docker/run:
 	sudo $(MAKE) .docker/run
 
 tree:
-	tree -a -I ".git|.tox|doc|run" --dirsfirst
+	tree -a -I ".git|.tox|doc|run" --dirsfirst -C | less -r
 
 .docker/build-context:
 	echo " \

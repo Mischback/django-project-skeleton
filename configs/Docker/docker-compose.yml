@@ -5,7 +5,7 @@ services:
         build:
             context: ../../
             dockerfile: configs/Docker/django/Dockerfile
-        command: ./configs/Docker/bin/django-run.sh
+        command: ./configs/Docker/bin/run-django.sh
         # providing the build and the image directive automatically tags the image
         # automatic tagging is performed with environment variables provided
         # through the Makefile and results in a tag with either a git commit hash
