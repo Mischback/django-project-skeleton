@@ -34,8 +34,8 @@ bin
 configs/Docker
 # but DO include the production-related scripts/config files
 !configs/Docker/bin/apt-install
-!configs/Docker/bin/run-django.sh
 !configs/Docker/django/gunicorn_conf.py
+!configs/Docker/django/run-gunicorn.sh
 !configs/Docker/nginx/nginx.conf
 !configs/Docker/nginx/entrypoint.sh
 
