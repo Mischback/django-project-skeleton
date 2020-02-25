@@ -37,6 +37,7 @@ configs/Docker
 !configs/Docker/bin/run-django.sh
 !configs/Docker/django/gunicorn_conf.py
 !configs/Docker/nginx/nginx.conf
+!configs/Docker/nginx/entrypoint.sh
 
 # do not include any samples
 **/*.sample
