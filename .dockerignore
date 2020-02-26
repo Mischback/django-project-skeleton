@@ -1,52 +1,51 @@
 # experimental .dockerignore
 
-# do NOT track Python compilation stuff
-*.py[cod]
-**/__python__
-
-# ignore .git-related stuff
-.git
-**/.gitignore
-
-# ignore tox-related stuff
-.tox
-tox.ini
-
-# ignore any development related files
-.dockerignore
-.editorconfig
-.travis.yml
-**/Makefile
-requirements/*.in
-
-# do NOT include ANY readme files
-**/README*
-
-# do NOT include the documentation
-# TODO: the original doc-folder of django-project-skeleton should be removed
-#   during initialising the project.
-doc
-
-# do NOT include the bin directory (these scripts are not used in production)
+# do NOT include the bin directory
+# these scripts are not used *inside* of Docker-based images.
+# They may be used during the build/run process and provide utility functions,
+# i.e. for tagging the images
 bin
 
-# do NOT include the Docker-related files
-configs/Docker
-# but DO include the production-related scripts/config files
+# do NOT include the provided configuration files
+configs
+# but DO include the production-related scripts/config files that are used
+# inside of the images
 !configs/Docker/bin/apt-install
 !configs/Docker/django/gunicorn_conf.py
 !configs/Docker/django/run-gunicorn.sh
 !configs/Docker/nginx/nginx.conf
 !configs/Docker/nginx/entrypoint.sh
 
+# do NOT include the documentation
+# TODO: the original doc-folder of django-project-skeleton should be removed
+#   during initialisation of the project. On the other hand, there could be
+#   project specific documentation. However, this should be excluded from any
+#   image.
+# TODO: 'doc' is already renamed to 'docs' in development!
+doc
+
+# inside of the images, only the compiled requirements files with the '.txt'
+# extension are used. No need to include the source files.
+requirements/*.in
+
+# utility files/directories of the repository should not be included
+**/.git
+**/.tox
+**/.dockerignore
+**/.editorconfig
+**/.gitignore
+**/.travis.yml
+**/Makefile
+**/README*
+**/tox.ini
+
 # do not include any samples
 **/*.sample
 
-# do not include the deployment specific files
-**/*.deployment
-
-# I started to put temporary notes into TODO files
-**/*.todo
+# do NOT track Python compilation stuff
+*.py[cod]
+**/__python__
+**/__pycache__
 
 # TODO: .gitignore excludes compiled language files. Is it safe to exclude the
 #   uncompiled language files for 'production'?
