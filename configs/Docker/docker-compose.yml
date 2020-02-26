@@ -11,6 +11,8 @@ services:
         # through the Makefile and results in a tag with either a git commit hash
         # or a datetime stamp (see Makefile.deployment)
         image: ${DPS_BUILD_NAME_PREFIX}/django:${DPS_BUILD_ID}
+        env_file:
+            ./env.production
         expose:
             - "8000"
     nginx:
