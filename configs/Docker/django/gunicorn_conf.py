@@ -70,6 +70,7 @@ worker_tmp_dir = '/dev/shm'  # Gunicorn default: None
 # While running behind a reverse proxy, Gunicorn's logs will only show the
 # reverse proxy's IP.
 # This project's setup uses an NGINX, which sets the 'X-Forwarded-For'-header.
+# See: https://stackoverflow.com/questions/25737589/gunicorn-doesnt-log-real-ip-from-nginx
 access_log_format = os.environ.get(
     'DPS_GUNICORN_LOGFORMAT',
     '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
