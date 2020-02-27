@@ -27,8 +27,8 @@ DPS_BUILD_NAME_PREFIX := "{{ project_name }}"
 # internal/tox/dev-django will use tox environments to run Django managements
 #   commands.
 # internal/django/raw will directly call the Django management commands.
-internal/django-mgmt: internal/tox/dev-django
-# internal/django-mgmt: internal/django/raw
+.internal/django-mgmt: .internal/tox/dev-django
+# .internal/django-mgmt: .internal/django/raw
 
 # tox command (this assumes, that tox is available in your Python environment
 # and your PATH is setup to allow direct calls)
