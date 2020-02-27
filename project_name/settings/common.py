@@ -79,10 +79,10 @@ TEMPLATES = [
 ]
 
 # the default WSGI application
-WSGI_APPLICATION = '%s.wsgi.application' % SITE_NAME
+WSGI_APPLICATION = '{}.wsgi.application'.format(SITE_NAME)
 
 # the root URL configuration
-ROOT_URLCONF = '%s.urls' % SITE_NAME
+ROOT_URLCONF = '{}.urls'.format(SITE_NAME)
 
 # the URL for static files
 STATIC_URL = '/static/'
@@ -130,4 +130,4 @@ except IOError:
         with open(SECRET_FILE, 'w') as f:
             f.write(SECRET_KEY)
     except IOError:
-        raise Exception('Could not open %s for writing!' % SECRET_FILE)
+        raise Exception('Could not open {} for writing!'.format(SECRET_FILE))
