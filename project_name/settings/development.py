@@ -1,5 +1,5 @@
 # Python imports
-from os.path import join
+import os
 
 # fetch the common settings
 from .common import *
@@ -16,7 +16,7 @@ INSTALLED_APPS = DEFAULT_APPS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': join(PROJECT_ROOT, 'run', 'dev.sqlite3'),
+        'NAME': os.path.join(PROJECT_ROOT, 'run', 'dev.sqlite3'),
     }
 }
 

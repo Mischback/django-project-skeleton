@@ -1,5 +1,5 @@
 # Python imports
-from os.path import join
+import os
 
 # Django imports
 from django.utils.translation import ugettext_lazy as _
@@ -29,7 +29,7 @@ LANGUAGES = (
 
 # Look for translations in these locations
 LOCALE_PATHS = (
-    join(PROJECT_ROOT, 'locale'),
+    os.path.join(PROJECT_ROOT, 'locale'),
 )
 
 # Inject the localization middleware into the right position

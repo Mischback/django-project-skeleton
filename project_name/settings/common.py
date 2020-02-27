@@ -1,38 +1,38 @@
 # Python imports
-from os.path import abspath, basename, dirname, join, normpath
+import os
 import sys
 
 
 # ##### PATH CONFIGURATION ################################
 
 # fetch Django's project directory
-DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+DJANGO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # fetch the project_root
-PROJECT_ROOT = dirname(DJANGO_ROOT)
+PROJECT_ROOT = os.path.dirname(DJANGO_ROOT)
 
 # the name of the whole site
-SITE_NAME = basename(DJANGO_ROOT)
+SITE_NAME = os.path.basename(DJANGO_ROOT)
 
 # collect static files here
-STATIC_ROOT = join(PROJECT_ROOT, 'run', 'static')
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'run', 'static')
 
 # collect media files here
-MEDIA_ROOT = join(PROJECT_ROOT, 'run', 'media')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'run', 'media')
 
 # look for static assets here
 STATICFILES_DIRS = [
-    join(PROJECT_ROOT, 'static'),
+    os.path.join(PROJECT_ROOT, 'static'),
 ]
 
 # look for templates here
 # This is an internal setting, used in the TEMPLATES directive
 PROJECT_TEMPLATES = [
-    join(PROJECT_ROOT, 'templates'),
+    os.path.join(PROJECT_ROOT, 'templates'),
 ]
 
 # add apps/ to the Python path
-sys.path.append(normpath(join(PROJECT_ROOT, 'apps')))
+sys.path.append(os.path.normpath(os.path.join(PROJECT_ROOT, 'apps')))
 
 
 # ##### APPLICATION CONFIGURATION #########################
@@ -106,7 +106,7 @@ USE_I18N = False
 
 # We store the secret key here
 # The required SECRET_KEY is fetched at the end of this file
-SECRET_FILE = normpath(join(PROJECT_ROOT, 'run', 'SECRET.key'))
+SECRET_FILE = os.path.normpath(os.path.join(PROJECT_ROOT, 'run', 'SECRET.key'))
 
 # these persons receive error notification
 ADMINS = (
