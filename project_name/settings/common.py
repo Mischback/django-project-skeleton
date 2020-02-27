@@ -79,21 +79,24 @@ TEMPLATES = [
 ]
 
 # the default WSGI application
-WSGI_APPLICATION = '{}.wsgi.application'.format(SITE_NAME)
+WSGI_APPLICATION = os.environ.get(
+    'DPS_DJANGO_WSGI_APP',
+    '{}.wsgi.application'.format(SITE_NAME)
+)
 
 # the root URL configuration
 ROOT_URLCONF = '{}.urls'.format(SITE_NAME)
 
 # the URL for static files
-STATIC_URL = '/static/'
+STATIC_URL = os.environ.get('DPS_DJANGO_STATIC_URL', '/static/')
 
 # the URL for media files
-MEDIA_URL = '/media/'
+MEDIA_URL = os.environ.get('DPS_DJANGO_MEDIA_URL', '/media/')
 
 # adjust the minimal login
 LOGIN_URL = 'core_login'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = 'core_login'
+LOGIN_REDIRECT_URL = os.environ.get('DPS_DJANGO_LOGIN_REDIRECT_URL', '/')
+LOGOUT_REDIRECT_URL = os.environ.get('DPS_DJANGO_LOGOUT_REDIRECT_URL', 'core_login')
 
 # Internationalization
 USE_I18N = False

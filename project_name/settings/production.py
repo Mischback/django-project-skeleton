@@ -1,10 +1,14 @@
+# Python imports
+import os
+
 # fetch the common settings
 from .common import *
+
 
 # ##### APPLICATION CONFIGURATION #########################
 
 # You will have to determine, which hostnames should be served by Django
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DPS_DJANGO_ALLOWED_HOSTS', '').split()
 
 INSTALLED_APPS = DEFAULT_APPS
 
