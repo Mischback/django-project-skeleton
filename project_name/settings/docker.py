@@ -14,15 +14,15 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'docker_simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
+        'dps_docker_default': {
+            'format': '%(asctime)-19s %(levelname)-8s [%(process)d] [%(name)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
         },
     },
     'handlers': {
         'docker_stdout': {
             'class': 'logging.StreamHandler',
-            'formatter': 'docker_simple',
+            'formatter': 'dps_docker_default',
             'level': 'DEBUG',
             'stream': 'ext://sys.stdout',
         },
