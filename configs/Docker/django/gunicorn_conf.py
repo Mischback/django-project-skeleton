@@ -73,7 +73,7 @@ worker_tmp_dir = '/dev/shm'  # Gunicorn default: None
 # See: https://stackoverflow.com/questions/25737589/gunicorn-doesnt-log-real-ip-from-nginx
 access_log_format = os.environ.get(
     'DPS_GUNICORN_LOGFORMAT',
-    '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+    '%({x-forwarded-for}i)s %(l)s %(s)s %(l)s "%(r)s"'
 )
 
 
@@ -100,14 +100,9 @@ logconfig_dict = {
             # Django's 'mail_admins' handler is removed!
             #'handlers': ['docker_stdout'],
             'level': os.environ.get('DPS_DJANGO_LOGLEVEL', 'INFO').upper(),
-            # Whatever got catched here will not propagate to the root logger
-            #'propagate': False,
         },
         'gunicorn': {
-            #'handlers': ['docker_stdout'],
             'level': os.environ.get('DPS_GUNICORN_LOGLEVEL', 'INFO').upper(),
-            # Whatever got catched here will not propagate to the root logger
-            #'propagate': False,
         },
         'gunicorn.access': {
             'propagate': os.environ.get('DPS_GUNICORN_SHOW_ACCESS_LOG', 'false').lower() == 'true',
