@@ -31,6 +31,12 @@ USE_X_FORWARDED_HOST = True
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'docker_simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
     'filters': {
         'max_level_filter': {
             '()': '{{ project_name }}.settings.docker.MaxLevelFilter',
@@ -42,12 +48,14 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': ['max_level_filter'],
             'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout'
+            'stream': 'ext://sys.stdout',
+            'formatter': 'docker_simple',
         },
         'docker_stderr': {
             'level': 'WARNING',
             'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stderr'
+            'stream': 'ext://sys.stderr',
+            'formatter': 'docker_simple',
         },
     },
     'loggers': {
@@ -56,6 +64,11 @@ LOGGING = {
             # TODO: Make this adjustable by environment as minimal logging level
             'level': 'INFO',
         },
+    },
+    'root': {
+        'handlers': ['docker_stdout', 'docker_stderr'],
+        # TODO: Make this adjustable by environment as minimal logging level
+        'level': 'INFO',
     },
 }
 
