@@ -76,10 +76,46 @@ access_log_format = os.environ.get(
     '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 )
 
-# while running in a Docker container, logs should be put to stdout/stderr to be picked up
-accesslog = os.environ.get('DPS_GUNICORN_ACCESSLOG_FILE', '-')
-errorlog = os.environ.get('DPS_GUNICORN_ERRORLOG_FILE', '-')  # this is actually the default value since Gunicorn 19.2
 
-# make the log level configurable by an environment variable
-# 'info' is provided as a default value, which is Gunicorn's default value aswell.
-loglevel = os.environ.get('DPS_GUNICORN_LOGLEVEL', 'info')
+logconfig_dict = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'dps_docker_default': {
+            'format': '%(asctime)-19s %(levelname)-8s [%(process)d] [%(name)s] %(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'docker_stdout': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'dps_docker_default',
+            'level': 'DEBUG',
+            'stream': 'ext://sys.stdout',
+        },
+    },
+    'loggers': {
+        # all Django logs should end up here...
+        'django': {
+            # Django's 'mail_admins' handler is removed!
+            #'handlers': ['docker_stdout'],
+            'level': os.environ.get('DPS_DJANGO_LOGLEVEL', 'INFO').upper(),
+            # Whatever got catched here will not propagate to the root logger
+            #'propagate': False,
+        },
+        'gunicorn': {
+            #'handlers': ['docker_stdout'],
+            'level': os.environ.get('DPS_GUNICORN_LOGLEVEL', 'INFO').upper(),
+            # Whatever got catched here will not propagate to the root logger
+            #'propagate': False,
+        },
+        'gunicorn.access': {
+            'propagate': os.environ.get('DPS_GUNICORN_SHOW_ACCESS_LOG', 'false').lower() == 'true',
+        },
+    },
+    # the 'root' logger is just redefined to make it compatible with Docker
+    'root': {
+        'handlers': ['docker_stdout'],
+        #'level': os.environ.get('DPS_DJANGO_LOGGING_LEVEL', 'INFO').upper(),
+    },
+}

@@ -1,2 +1,2 @@
 -c common.txt
-gunicorn
+gunicorn>=19.8
