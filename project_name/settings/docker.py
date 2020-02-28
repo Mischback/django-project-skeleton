@@ -1,26 +1,8 @@
 # Python imports
-import logging
 import os
 
 # fetch the production settings
 from .production import *
-
-
-class MaxLevelFilter(logging.Filter):
-    """Only allow messages up to a given logging level.
-
-    The idea is to direct any logs below a given level to stdout and above
-    that level to stderr.
-
-    This is based on
-    https://stackoverflow.com/questions/1383254/logging-streamhandler-and-standard-streams
-    """
-
-    def __init__(self, max_level):
-        self.max_level = getattr(logging, max_level)
-
-    def filter(self, record):
-        return record.levelno < self.max_level
 
 
 # make Django work correctly behind the nginx proxy
@@ -37,39 +19,27 @@ LOGGING = {
             'style': '{',
         },
     },
-    'filters': {
-        'max_level_filter': {
-            '()': '{{ project_name }}.settings.docker.MaxLevelFilter',
-            'max_level': 'WARNING',
-        },
-    },
     'handlers': {
         'docker_stdout': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'docker_simple',
             'level': 'DEBUG',
-            'filters': ['max_level_filter'],
-            'class': 'logging.StreamHandler',
             'stream': 'ext://sys.stdout',
-            'formatter': 'docker_simple',
-        },
-        'docker_stderr': {
-            'level': 'WARNING',
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stderr',
-            'formatter': 'docker_simple',
         },
     },
     'loggers': {
+        # all Django logs should end up here...
         'django': {
-            'handlers': ['docker_stdout', 'docker_stderr'],
-            # TODO: Make this adjustable by environment as minimal logging level
-            'level': 'INFO',
+            # Django's 'mail_admins' handler is removed!
+            'handlers': ['docker_stdout'],
+            'level': os.environ.get('DPS_DJANGO_LOGGING_LEVEL', 'INFO').upper(),
+            # Whatever got catched here will not propagate to the root logger
+            'propagate': False,
         },
     },
+    # the 'root' logger is just redefined to make it compatible with Docker
     'root': {
-        'handlers': ['docker_stdout', 'docker_stderr'],
-        # TODO: Make this adjustable by environment as minimal logging level
-        'level': 'INFO',
+        'handlers': ['docker_stdout'],
+        'level': os.environ.get('DPS_DJANGO_LOGGING_LEVEL', 'INFO').upper(),
     },
 }
-
-logging.getLogger('django').info('Applied fixes for running Django in Docker behind nginx!')
