@@ -90,7 +90,7 @@ logconfig_dict = {
         'docker_stdout': {
             'class': 'logging.StreamHandler',
             'formatter': 'dps_docker_default',
-            'level': 'DEBUG',
+            'level': os.environ.get('DPS_OVERALL_LOGLEVEL', 'INFO').upper(),
             'stream': 'ext://sys.stdout',
         },
     },
@@ -111,6 +111,6 @@ logconfig_dict = {
     # the 'root' logger is just redefined to make it compatible with Docker
     'root': {
         'handlers': ['docker_stdout'],
-        #'level': os.environ.get('DPS_DJANGO_LOGGING_LEVEL', 'INFO').upper(),
+        'level': os.environ.get('DPS_OVERALL_LOGLEVEL', 'INFO').upper(),
     },
 }
