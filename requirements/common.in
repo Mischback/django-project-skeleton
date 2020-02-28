@@ -1,2 +1,2 @@
 # currently used Django version
-Django==2.2.9
+Django>=2.2,<3.0

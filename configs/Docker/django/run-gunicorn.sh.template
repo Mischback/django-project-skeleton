@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export DJANGO_SETTINGS_MODULE="{{ project_name}}.settings.docker-nginx"
+export DJANGO_SETTINGS_MODULE="{{ project_name}}.settings.docker"
 
 exec gunicorn {{ project_name }}.wsgi:application --config='file:configs/Docker/django/gunicorn_conf.py'
