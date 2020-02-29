@@ -51,7 +51,11 @@ init:
 	# switching the Makefile **should** be the last step
 	mv ./configs/Makefile.deployment.template ./Makefile
 
-docker/build:
+configs/Docker/env.production:
+	$(ECHO) "Initializing environment file for production...\n"
+	cp configs/Docker/env.sample configs/Docker/env.production
+
+docker/build: configs/Docker/env.production
 	tox -q -e docker-testing
 
 docker/build-context:

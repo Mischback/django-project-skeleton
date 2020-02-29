@@ -249,13 +249,21 @@ django/staticfiles/find:
 
 ### Docker commands ###
 
-docker/build: util/requirements
+docker/build: util/requirements configs/Docker/env.production
 	sudo $(MAKE) .internal/docker/build
 
 docker/run: docker/run/django
 
 docker/run/django:
 	sudo $(MAKE) .internal/docker/run/django
+
+
+### Environment management ###
+
+configs/Docker/env.production:
+	$(ECHO) "Initializing environment file for production...\n"
+	cp configs/Docker/env.sample configs/Docker/env.production
+
 
 ### Utility commands ###
 
