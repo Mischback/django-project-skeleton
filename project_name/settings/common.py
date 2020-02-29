@@ -1,6 +1,9 @@
 # Python imports
+import logging
 import os
 import sys
+
+logger = logging.getLogger(__name__)
 
 
 # ##### PATH CONFIGURATION ################################
@@ -122,15 +125,28 @@ MANAGERS = ADMINS
 DEBUG = False
 
 
-# finally grab the SECRET KEY
-try:
-    SECRET_KEY = open(SECRET_FILE).read().strip()
-except IOError:
+logger.debug('Trying to fetch SECRET_KEY from the environment...')
+SECRET_KEY = os.environ.get('DPS_DJANGO_SECRET_KEY')
+if SECRET_KEY is None:
+    logger.debug('Could not find key in the environment!')
+
+    logger.debug('Trying to read SECRET_KEY from SECRET_FILE...')
     try:
-        from django.utils.crypto import get_random_string
-        chars = 'abcdefghijklmnopqrstuvwxyz0123456789!$%&()=+-_'
-        SECRET_KEY = get_random_string(50, chars)
-        with open(SECRET_FILE, 'w') as f:
-            f.write(SECRET_KEY)
+        SECRET_KEY = open(SECRET_FILE).read().strip()
+        logger.info('Read SECRET_KEY from SECRET_FILE.')
     except IOError:
-        raise Exception('Could not open {} for writing!'.format(SECRET_FILE))
+        logger.debug('Could not open SECRET_FILE ({})!'.format(SECRET_FILE))
+
+        try:
+            from django.utils.crypto import get_random_string
+            chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$%&()=+-_'
+            SECRET_KEY = get_random_string(50, chars)
+            with open(SECRET_FILE, 'w') as f:
+                f.write(SECRET_KEY)
+
+            logger.info('Generated a new SECRET_KEY and stored it in SECRET_FILE ({})!'.format(SECRET_FILE))
+        except IOError:
+            logger.exception('Could not open SECRET_FILE ({}) for writing!'.format(SECRET_FILE))
+            raise Exception('Could not open {} for writing!'.format(SECRET_FILE))
+else:
+    logger.info('Fetched SECRET_KEY from environment.')
