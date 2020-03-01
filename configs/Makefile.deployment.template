@@ -261,8 +261,13 @@ docker/run/django:
 ### Environment management ###
 
 configs/Docker/env.production:
+	# this is explicitly **NOT** a phony target, because the production
+	# settings must only be generated **ONE TIME**.
+	# Some of these settings are initialised with random values, but hve to be
+	# constant for the lifetime of a project, e.g. the SECRET_KEY.
 	$(ECHO) "Initializing environment file for production...\n"
 	cp configs/Docker/env.sample configs/Docker/env.production
+	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./bin/generate_secret_key.sh)/" configs/Docker/env.production
 
 
 ### Utility commands ###
