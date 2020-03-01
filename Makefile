@@ -39,6 +39,7 @@ clean:
 	# into version control, thus, they can not simply included in a .gitignore.
 	rm requirements/common.txt
 	rm requirements/production.txt
+	rm configs/Docker/env.production
 
 init:
 	# TODO: Include some output to this function
