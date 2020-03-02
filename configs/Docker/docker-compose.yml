@@ -15,6 +15,8 @@ services:
             ./env.production
         expose:
             - "8000"
+        volumes:
+            - static-files:/webapp/run/static
     nginx:
         build:
             context: ./nginx/
@@ -26,3 +28,8 @@ services:
         image: ${DPS_BUILD_NAME_PREFIX}/nginx:${DPS_BUILD_ID}
         ports:
             - "80:80"
+        volumes:
+            - static-files:/var/www/static
+
+volumes:
+    static-files:

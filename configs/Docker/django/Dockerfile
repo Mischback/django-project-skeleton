@@ -53,9 +53,8 @@ FROM python:3.8-slim-buster as django_production
 COPY configs/Docker/bin/apt-install /usr/local/bin/
 
 # create a user to be used (meaning: we won't run with root-permissions!)
-RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser && \
-    mkdir /home/pythonuser
-WORKDIR /home/pythonuser
+RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser
+WORKDIR /webapp
 
 # fetch the virtual environment from base
 COPY --from=base --chown=2342:65534 /venv /venv
