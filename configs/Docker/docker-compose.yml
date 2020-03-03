@@ -29,7 +29,7 @@ services:
         ports:
             - "80:80"
         volumes:
-            - static-files:/var/www/static
+            - static-files:/var/www/django_files/static
 
 volumes:
     static-files:

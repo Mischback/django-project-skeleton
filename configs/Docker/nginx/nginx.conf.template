@@ -6,26 +6,46 @@ events {
     accept_mutex off;
 }
 
+# TODO: drop user privileges here!
+#
+
 http {
 
     # define the Django server
     upstream app_server {
+        # The upstream is identified by the service name provided in
+        # docker-compose.yml. Adjust accordingly, if you run your
+        # nginx outside of the scope that file / on bare metal.
         server django:8000;
     }
 
-    # if no Host match, close the connection to prevent host spoofing
     server {
-        listen 80 default_server;
-        return 444;
-    }
+        # TODO: This **must** be configurable by environment variables
+        server_name deb10.*;
 
-    server {
+        # TODO: Let's make this run with HTTP, but should finally be switched
+        #   to HTTPS.
         listen 80;
-        client_max_body_size 4G;
 
-        server_name deb10.massive.home;
+        # TODO: This *should* be synchronized with Django's
+        #   DATA_UPLOAD_MAX_MEMORY_SIZE, which defaults to 2621440 byte=2.5MB.
+        #   This *could* be adjustable with environment variables, but on the
+        #   other hand, this might be a very specific setting and adjustment
+        #   only is necessary for specific applications that typically handle
+        #   larger files. For now, it is just set to Django's default value.
+        client_max_body_size 2621440;
 
-        keepalive_timeout 5;
+        # set the timeout for keep-alive connections for the whole server
+        keepalive_timeout 60;
+
+        # TODO: This *should* be adjustable with environment variables and
+        #   has to be synchronized with Django's STATIC_URL, as defined by
+        #   DPS_DJANGO_STATIC_URL in env.sample.
+        location /static/ {
+            # The Docker volume for static files is mounted to
+            # /var/www/django_files/static (see docker-compose.yml).
+            root /var/www/django_files;
+        }
 
         location / {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -34,6 +54,23 @@ http {
             proxy_set_header Host $http_host;
             proxy_redirect off;
             proxy_pass http://app_server;
+
+            # TODO: This *should* be synchronized with Gunicorn's 'keepalive'
+            #   setting (DPS_GUNICORN_KEEPALIVE)
+            keepalive_timeout 5;
         }
     }
+
+    # if no server_name matches, close the connection to prevent host spoofing
+    server {
+        listen 80 default_server;
+        return 444;
+    }
+
+    # automatically detect mime types
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # disable server tokens (on error pages / headers)
+    server_tokens off;
 }

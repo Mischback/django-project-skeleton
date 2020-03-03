@@ -66,8 +66,10 @@ docker/build-context:
 docker/images:
 	sudo $(MAKE) .docker/images
 
-docker/run:
+docker/run: docker/build
 	sudo $(MAKE) .docker/run
+
+run: docker/run
 
 tree:
 	tree -a -I ".git|.tox|doc|run" --dirsfirst -C | less -r
