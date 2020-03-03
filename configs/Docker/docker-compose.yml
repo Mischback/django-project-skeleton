@@ -17,6 +17,8 @@ services:
             - "8000"
         volumes:
             - static-files:/webapp/run/static
+            # synchronize time with host machine
+            - /etc/localtime:/etc/localtime:ro
     nginx:
         build:
             context: ./nginx/
@@ -30,6 +32,8 @@ services:
             - "80:80"
         volumes:
             - static-files:/var/www/django_files/static
+            # synchronize time with host machine
+            - /etc/localtime:/etc/localtime:ro
 
 volumes:
     static-files:
