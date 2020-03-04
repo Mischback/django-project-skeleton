@@ -40,6 +40,9 @@ sys.path.append(os.path.normpath(os.path.join(PROJECT_ROOT, 'apps')))
 
 # ##### APPLICATION CONFIGURATION #########################
 
+# set the project's default timezone
+TIME_ZONE = os.environ.get('DPS_TIMEZONE', 'Etc/UTC')
+
 # these are the apps
 DEFAULT_APPS = [
     'django.contrib.admin',

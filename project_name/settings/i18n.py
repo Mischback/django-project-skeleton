@@ -10,7 +10,6 @@ from .common import PROJECT_ROOT, MIDDLEWARE
 # ##### INTERNATIONALIZATION ##############################
 
 LANGUAGE_CODE = 'de'
-TIME_ZONE = 'Europe/Berlin'
 
 # Internationalization
 USE_I18N = True
