@@ -52,6 +52,8 @@ FROM python:3.8-slim-buster as django_production
 # fetch our custom install script
 COPY configs/Docker/bin/apt-install /usr/local/bin/
 
+RUN apt-install gosu
+
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser
 WORKDIR /webapp
@@ -63,6 +65,9 @@ COPY --from=base --chown=2342:65534 /venv /venv
 ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+# fetch the entrypoint script
+COPY configs/Docker/django/entrypoint-django.sh /usr/local/bin/
+
 # fetch the actual project files
 COPY --chown=2342:65534 . .
 
@@ -70,7 +75,7 @@ COPY --chown=2342:65534 . .
 EXPOSE 8000
 
 # drop user privileges
-USER pythonuser
+#USER pythonuser
 
-# start the Django development server by default
-CMD ["python", "manage.py", "runserver"]
+# set the entrypoint script
+ENTRYPOINT ["entrypoint-django.sh"]
