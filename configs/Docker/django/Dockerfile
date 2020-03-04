@@ -66,16 +66,17 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # fetch the entrypoint script
-COPY configs/Docker/django/entrypoint-django.sh /usr/local/bin/
+COPY configs/Docker/django/*.sh /usr/local/bin/
 
 # fetch the actual project files
+# TODO: copy in several steps with more/finer control
 COPY --chown=2342:65534 . .
 
 # make Gunicorn's port 8000 available to other Docker images
 EXPOSE 8000
 
-# drop user privileges
-#USER pythonuser
-
 # set the entrypoint script
 ENTRYPOINT ["entrypoint-django.sh"]
+
+# and the default command
+CMD ["run-gunicorn.sh"]
