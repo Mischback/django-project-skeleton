@@ -15,7 +15,7 @@ configs
 !configs/Docker/django/gunicorn_conf.py
 !configs/Docker/django/run_gunicorn.sh
 !configs/Docker/nginx/nginx.conf
-!configs/Docker/nginx/entrypoint.sh
+!configs/Docker/nginx/entrypoint_nginx.sh
 
 # do NOT include the documentation
 # TODO: the original doc-folder of django-project-skeleton should be removed
