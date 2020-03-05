@@ -11,6 +11,7 @@ configs
 # but DO include the production-related scripts/config files that are used
 # inside of the images
 !configs/Docker/bin/apt-install
+!configs/Docker/bin/set_timezone.sh
 !configs/Docker/django/entrypoint-django.sh
 !configs/Docker/django/gunicorn_conf.py
 !configs/Docker/django/run-gunicorn.sh

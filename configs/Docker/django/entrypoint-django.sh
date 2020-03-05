@@ -1,13 +1,11 @@
 #!/bin/bash
 
-if [[ -v DPS_TIMEZONE ]]; then
+# determine the scripts current working directory (CWD)
+CWD="${BASH_SOURCE%/*}";
+if [[ ! -d "$CWD" ]]; then CWD="$PWD"; fi
 
-    true \
-    && echo ${DPS_TIMEZONE} > /etc/timezone \
-    && ln -sf /usr/share/zoneinfo/${DPS_TIMEZONE} /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata;
+# include the script for setting the timezone
+source "$CWD/set_timezone.sh"
 
-fi
-
-# actually execute the provided command, but drop privileges using gosu
+# execute the provided command, but drop privileges using gosu
 exec gosu pythonuser "$@"

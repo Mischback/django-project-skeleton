@@ -14,17 +14,17 @@
 #       the Python packages, they must be installed here aswell!
 FROM python:3.8-slim-buster as base
 
-# fetch our custom install script
-COPY configs/Docker/bin/apt-install /usr/local/bin/
-
 # set environment variables
-# TODO: Check if these are still valid for "production"!
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # create the virtual environment for our project
 ENV VIRTUAL_ENV=/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
+
+# fetch our custom install script
+COPY configs/Docker/bin/apt-install /docker-bin/
+
 RUN python3 -m venv $VIRTUAL_ENV
 
 # update pip inside of the virtual environment
@@ -49,8 +49,16 @@ RUN pip install --no-cache-dir \
 #       directly into this image.
 FROM python:3.8-slim-buster as django_production
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# actually activate this virtual environment
+ENV VIRTUAL_ENV=/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
+
 # fetch our custom install script
-COPY configs/Docker/bin/apt-install /usr/local/bin/
+COPY configs/Docker/bin/apt-install /docker-bin/
 
 RUN apt-install gosu
 
@@ -61,12 +69,12 @@ WORKDIR /webapp
 # fetch the virtual environment from base
 COPY --from=base --chown=2342:65534 /venv /venv
 
-# actually activate this virtual environment
-ENV VIRTUAL_ENV=/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# fetch the entrypoint script (and includes)
+COPY configs/Docker/django/entrypoint-django.sh /docker-bin/
+COPY configs/Docker/bin/set_timezone.sh /docker-bin/
 
-# fetch the entrypoint script
-COPY configs/Docker/django/*.sh /usr/local/bin/
+# fetch the container's start script
+COPY configs/Docker/django/run-gunicorn.sh /docker-bin/
 
 # fetch the actual project files
 # TODO: copy in several steps with more/finer control
@@ -75,7 +83,7 @@ COPY --chown=2342:65534 . .
 # make Gunicorn's port 8000 available to other Docker images
 EXPOSE 8000
 
-# set the entrypoint script
+# set the entrypoint script...
 ENTRYPOINT ["entrypoint-django.sh"]
 
 # and the default command
