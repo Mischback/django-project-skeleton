@@ -23,7 +23,7 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-install /docker-bin/
+COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN python3 -m venv $VIRTUAL_ENV
 
@@ -58,9 +58,9 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-install /docker-bin/
+COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
 
-RUN apt-install gosu
+RUN apt-get_install.sh gosu
 
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser
