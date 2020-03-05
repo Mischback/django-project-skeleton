@@ -11,9 +11,9 @@ configs
 # but DO include the production-related scripts/config files that are used
 # inside of the images
 !configs/Docker/bin/*
-!configs/Docker/django/entrypoint-django.sh
+!configs/Docker/django/entrypoint_django.sh
 !configs/Docker/django/gunicorn_conf.py
-!configs/Docker/django/run-gunicorn.sh
+!configs/Docker/django/run_gunicorn.sh
 !configs/Docker/nginx/nginx.conf
 !configs/Docker/nginx/entrypoint.sh
 

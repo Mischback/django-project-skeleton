@@ -70,11 +70,11 @@ WORKDIR /webapp
 COPY --from=base --chown=2342:65534 /venv /venv
 
 # fetch the entrypoint script (and includes)
-COPY configs/Docker/django/entrypoint-django.sh /docker-bin/
+COPY configs/Docker/django/entrypoint_django.sh /docker-bin/
 COPY configs/Docker/bin/set_timezone.sh /docker-bin/
 
 # fetch the container's start script
-COPY configs/Docker/django/run-gunicorn.sh /docker-bin/
+COPY configs/Docker/django/run_gunicorn.sh /docker-bin/
 
 # fetch the actual project files
 # TODO: copy in several steps with more/finer control
@@ -84,7 +84,7 @@ COPY --chown=2342:65534 . .
 EXPOSE 8000
 
 # set the entrypoint script...
-ENTRYPOINT ["entrypoint-django.sh"]
+ENTRYPOINT ["entrypoint_django.sh"]
 
 # and the default command
-CMD ["run-gunicorn.sh"]
+CMD ["run_gunicorn.sh"]

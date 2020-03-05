@@ -45,7 +45,7 @@ init:
 	# TODO: Include some output to this function
 	# create the final version of different files by removing the '.sample' suffix
 	mv ./configs/apache2_vhost.sample.template ./configs/apache2_vhost.sample
-	mv ./configs/Docker/django/run-gunicorn.sh.template ./configs/Docker/django/run-gunicorn.sh
+	mv ./configs/Docker/django/run_gunicorn.sh.template ./configs/Docker/django/run_gunicorn.sh
 	mv ./configs/Docker/nginx/nginx.conf.template ./configs/Docker/nginx/nginx.conf
 	# switching the tox configuration file
 	mv ./configs/tox.deployment.template ./tox.ini
