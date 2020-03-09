@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # This script is used to install packages into Debian-based images.
 #
 # It may be called with a list of Debian packages and will automatically

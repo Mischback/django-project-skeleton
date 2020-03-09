@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo pipefail
 
 # This script is part of django-project-skeleton and is used to determine an
 # identifier to tag Docker images.

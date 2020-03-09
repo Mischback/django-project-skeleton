@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # determine the scripts current working directory (CWD)
 CWD="${BASH_SOURCE%/*}";
 if [[ ! -d "$CWD" ]]; then CWD="$PWD"; fi

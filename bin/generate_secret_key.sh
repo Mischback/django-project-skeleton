@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -euo pipefail
 
 # This script is part of django-project-skeleton and is used to generate an
 # random string to be used as SECRET_KEY for Django's configuration.

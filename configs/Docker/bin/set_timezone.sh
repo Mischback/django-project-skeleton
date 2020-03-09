@@ -6,6 +6,8 @@
 # This script has to be run with root privileges in order to actually run
 # `dpkg-reconfigure`.
 
+set -euo pipefail
+
 # check for the existence of DPS_TIMEZONE in environment
 if [[ -v DPS_TIMEZONE ]]; then
     true \
