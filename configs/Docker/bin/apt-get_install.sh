@@ -25,5 +25,8 @@ apt-get update
 # do NOT install 'recommended packages'
 apt-get install -y --no-install-recommends "$@"
 
+apt-get autoremove
+apt-get clean
+
 # remove apt's sources lists
 rm -rf /var/lib/apt/lists/*
