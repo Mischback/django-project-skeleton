@@ -21,7 +21,7 @@ http {
 
     server {
         # TODO: This **must** be configurable by environment variables
-        server_name deb10.*;
+        server_name ${DPS_NGINX_SERVER_NAME};
 
         # TODO: Let's make this run with HTTP, but should finally be switched
         #   to HTTPS.
