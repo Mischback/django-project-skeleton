@@ -74,5 +74,5 @@ http {
     default_type application/octet-stream;
 
     # disable server tokens (on error pages / headers)
-    server_tokens off;
+    server_tokens ${DPS_NGINX_SERVER_TOKENS};
 }

@@ -7,5 +7,8 @@ COPY nginx/nginx.conf.template /docker-bin/
 ARG DPS_NGINX_SERVER_NAME=localhost
 ENV DPS_NGINX_SERVER_NAME ${DPS_NGINX_SERVER_NAME}
 
+ARG DPS_NGINX_SERVER_TOKENS=off
+ENV DPS_NGINX_SERVER_TOKENS ${DPS_NGINX_SERVER_TOKENS}
+
 ENTRYPOINT ["/docker-bin/entrypoint_nginx.sh"]
 CMD ["nginx", "-g", "daemon off;"]

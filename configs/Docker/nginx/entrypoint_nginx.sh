@@ -9,8 +9,9 @@ if [[ ! -d "$CWD" ]]; then CWD="$PWD"; fi
 # include the script for setting the timezone
 source "$CWD/set_timezone.sh"
 
-envsubst ' \
+envsubst '
     ${DPS_NGINX_SERVER_NAME}
+    ${DPS_NGINX_SERVER_TOKENS}
     ' \
     < /docker-bin/nginx.conf.template \
     > /etc/nginx/nginx.conf
