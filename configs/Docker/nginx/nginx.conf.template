@@ -20,7 +20,9 @@ http {
     }
 
     server {
-        # TODO: This **must** be configurable by environment variables
+        # Specifies the name that is used to identify the matching server
+        # block. Nginx supports wildcards aswell as regular expressions. See
+        # https://nginx.org/en/docs/http/server_names.html for further details.
         server_name ${DPS_NGINX_SERVER_NAME};
 
         # TODO: Let's make this run with HTTP, but should finally be switched
