@@ -40,13 +40,14 @@ http {
         # set the timeout for keep-alive connections for the whole server
         keepalive_timeout 60;
 
-        # TODO: This *should* be adjustable with environment variables and
-        #   has to be synchronized with Django's STATIC_URL, as defined by
-        #   DPS_DJANGO_STATIC_URL in env.sample.
-        location /static/ {
+        # serve the webapp's static files directly by Nginx
+        location ${DPS_STATIC_URL} {
             # The Docker volume for static files is mounted to
             # /var/www/django_files/static (see docker-compose.yml).
-            root /var/www/django_files;
+            alias /var/www/django_files/static/;
+
+            # disable directory listings for this location
+            autoindex off;
         }
 
         location / {

@@ -10,6 +10,7 @@ if [[ ! -d "$CWD" ]]; then CWD="$PWD"; fi
 source "$CWD/set_timezone.sh"
 
 envsubst '
+    ${DPS_STATIC_URL}
     ${DPS_NGINX_SERVER_NAME}
     ${DPS_NGINX_SERVER_TOKENS}
     ' \

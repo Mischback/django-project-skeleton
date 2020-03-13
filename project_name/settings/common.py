@@ -94,7 +94,7 @@ WSGI_APPLICATION = os.environ.get(
 ROOT_URLCONF = '{}.urls'.format(SITE_NAME)
 
 # the URL for static files
-STATIC_URL = os.environ.get('DPS_DJANGO_STATIC_URL', '/static/')
+STATIC_URL = os.environ.get('DPS_STATIC_URL', '/static/')
 
 # the URL for media files
 MEDIA_URL = os.environ.get('DPS_DJANGO_MEDIA_URL', '/media/')
