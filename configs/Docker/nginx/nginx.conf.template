@@ -38,8 +38,7 @@ http {
         # The provided default configuration of Gunicorn will handle 500
         # requests per process, before restarting the worker; this is not
         # directly dependent on each other.
-        #keepalive_requests ${DPS_NGINX_KEEPALIVE_NUM_REQ};
-        keepalive_requests 100;
+        keepalive_requests ${DPS_NGINX_KEEPALIVE_NUM_REQ};
 
         # Timeout for idle keepalive connections
         # This setting should be synced with Gunicorn's 'keepalive' setting.
