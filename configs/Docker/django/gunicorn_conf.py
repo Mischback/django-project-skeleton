@@ -25,7 +25,7 @@ max_requests_jitter = 25  # Gunicorn default: 0 (new in Gunicorn 19.2)
 
 # number of seconds to wait for requests on a Keep-Alive connection
 # this setting is **not relevant** if using the 'sync' worker-class!
-keepalive = os.environ.get('DPS_GUNICORN_KEEPALIVE', 10)  # Gunicorn default: 2
+keepalive = os.environ.get('DPS_UPSTREAM_KEEPALIVE_TIMEOUT', 60)  # Gunicorn default: 2
 
 # fix Gunicorn's heartbeat inside of containers
 # http://docs.gunicorn.org/en/stable/faq.html#how-do-i-avoid-gunicorn-excessively-blocking-in-os-fchmod

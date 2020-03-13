@@ -11,6 +11,7 @@ source "$CWD/set_timezone.sh"
 
 envsubst '
     ${DPS_STATIC_URL}
+    ${DPS_UPSTREAM_KEEPALIVE_TIMEOUT}
     ${DPS_NGINX_SERVER_NAME}
     ${DPS_NGINX_SERVER_TOKENS}
     ' \

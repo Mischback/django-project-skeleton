@@ -15,8 +15,40 @@ http {
     upstream app_server {
         # The upstream is identified by the service name provided in
         # docker-compose.yml. Adjust accordingly, if you run your
-        # nginx outside of the scope that file / on bare metal.
+        # nginx outside of the scope of that file / on bare metal.
         server django:8000;
+
+        # Number of preserved keepalive connections
+        # This settings is highly dependent on the configuration of the
+        # upstream servers, particurlarly the configuration of Gunicorn:
+        # As stated in Nginx docs, "The connections parameter should be set to
+        # a number small enough to let upstream servers process new incoming
+        # connections as well." (http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive)
+        # The provided default configuration of Gunicorn uses 2 workers with 4
+        # threads per worker. This enables 8 (logically) concurrent requests.
+        # Nginx's 'keepalive' setting should be lower than this maximum number
+        # of concurrent requests.
+        #keepalive ${DPS_NGINX_KEEPALIVE_NUM_CONN};
+        keepalive 5;
+
+        # Number of requests per keepalive connection
+        # Nginx default value: 100
+        # As stated in Nginx docs, "Closing connections periodically is
+        # necessary to free per-connection memory allocations."
+        # (http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive_requests)
+        # The provided default configuration of Gunicorn will handle 500
+        # requests per process, before restarting the worker; this is not
+        # directly dependent on each other.
+        #keepalive_requests ${DPS_NGINX_KEEPALIVE_NUM_REQ};
+        keepalive_requests 100;
+
+        # Timeout for idle keepalive connections
+        # This setting should be synced with Gunicorn's 'keepalive' setting.
+        # Gunicorn's default value is 2, Nginx's one 60.
+        # In the provided setup, Nginx is the only "client" talking to
+        # Gunicorn, so a higher value for this setting should be acceptable.
+        # http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive_timeout
+        keepalive_timeout ${DPS_UPSTREAM_KEEPALIVE_TIMEOUT};
     }
 
     server {
@@ -51,17 +83,64 @@ http {
         }
 
         location / {
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header X-Forwarded-Host {{ project_name }};
-            proxy_set_header Host $http_host;
-            proxy_redirect off;
+            # Proxy requests to the upstream servers defined above
             proxy_pass http://app_server;
 
-            # TODO: This *should* be synchronized with Gunicorn's 'keepalive'
-            #   setting (DPS_GUNICORN_KEEPALIVE)
-            keepalive_timeout 5;
+            # Disable caching of upstream completely
+            # Caching is only done by the upstream application server (Django).
+            # This might be subject to change, if microcaching is desirable to
+            # enhance the setups performance, but is highly dependent on the
+            # actual application.
+            proxy_cache off;
+
+            # Enable HTTP/1.1 for the communication with upstream servers.
+            # This setting is required to actually make use of keepalive
+            # connections between Nginx and the upstream servers.
+            proxy_http_version 1.1;
+
+            # Drop the clients connection header (could contain "close" to
+            # close a keepalive connection).
+            proxy_set_header Connection "";
+
+            # TODO: Check, if this is necessary to fix redirects from Django
+            #   views or leave 'off'
+            proxy_redirect off;
+
+            # Provide the requester's address
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            # Provide the original request's protocol
+            # FIXME: When this setup is switched to https, probably the
+            #   following Django setting is relevant:
+            #    - SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            # TODO: develop a working combination of
+            #    - setting the Host header
+            #    - setting the X-Forwarded-Host header
+            #    - Django's ALLOWED_HOSTS setting
+            #    - Django's USE_X_FORWARDED_HOST setting
+            #    that makes CSRF-protected requests work correctly.
+            #    See:
+            #        - https://stackoverflow.com/a/48646798
+            #        - https://ubuntu.com/blog/django-behind-a-proxy-fixing-absolute-urls
+            #        - https://medium.com/@rui.jorge.rei/today-i-learned-nginx-reverse-proxying-for-django-projects-3ab17ad707f6
+            #        - https://code.djangoproject.com/ticket/9064
+            #
+            #    Proposed solution:
+            #        - use "proxy_set_header Host $host;" to set a correct "Host" header when passing the request to upstream
+            #            - "$host" will contain the value of the "Host" header of the request or the primary server name (see http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header)
+            #            - the primary server name is controllable by an environment variable; so it is usable in Django's ALLOWED_HOSTS aswell (needs renaming!)
+            #        - do NOT set "X-Forwarded-Host" at all
+            #        - do NOT use Django's USE_X_FORWARDED_HOST
+            #        - probably the file [project_name]/settings/docker.py is not longer required
+            #
+            # TODO: Remove "{{ project_name }}" and rely on value that is set by environment variables, if possible
+            # Provide the originally requested host
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forwarded-Host {{ project_name }};
         }
+
     }
 
     # if no server_name matches, close the connection to prevent host spoofing
