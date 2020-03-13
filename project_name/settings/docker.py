@@ -5,10 +5,11 @@ import os
 from .production import *
 
 
-# make Django work correctly behind the nginx proxy
-# nginx **must** set the appropriate header!
-ALLOWED_HOSTS = os.environ.get('DPS_DJANGO_ALLOWED_HOSTS', '{{ project_name }}').split()
-USE_X_FORWARDED_HOST = True
+# Make Django work correctly behind the Nginx proxy
+# Nginx **must** set the appropriate header!
+# In the current setup, Nginx sets the "Host" header to the "server_name".
+ALLOWED_HOSTS = os.environ.get('DPS_SERVER_NAME', 'localhost').split()
+#USE_X_FORWARDED_HOST = True
 
 # Logging is set up in Gunicorn's configuration
 LOGGING_CONFIG=None

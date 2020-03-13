@@ -53,7 +53,7 @@ http {
         # Specifies the name that is used to identify the matching server
         # block. Nginx supports wildcards aswell as regular expressions. See
         # https://nginx.org/en/docs/http/server_names.html for further details.
-        server_name ${DPS_NGINX_SERVER_NAME};
+        server_name ${DPS_SERVER_NAME};
 
         # TODO: Let's make this run with HTTP, but should finally be switched
         #   to HTTPS.
@@ -113,7 +113,9 @@ http {
             #    - SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
             proxy_set_header X-Forwarded-Proto $scheme;
 
-            # TODO: develop a working combination of
+            # Provide the (originally requested) hostname to the upstream
+            #
+            # DONE: develop a working combination of
             #    - setting the Host header
             #    - setting the X-Forwarded-Host header
             #    - Django's ALLOWED_HOSTS setting
@@ -125,18 +127,23 @@ http {
             #        - https://medium.com/@rui.jorge.rei/today-i-learned-nginx-reverse-proxying-for-django-projects-3ab17ad707f6
             #        - https://code.djangoproject.com/ticket/9064
             #
-            #    Proposed solution:
-            #        - use "proxy_set_header Host $host;" to set a correct "Host" header when passing the request to upstream
-            #            - "$host" will contain the value of the "Host" header of the request or the primary server name (see http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header)
-            #            - the primary server name is controllable by an environment variable; so it is usable in Django's ALLOWED_HOSTS aswell (needs renaming!)
+            #    Current solution:
+            #        - use "proxy_set_header Host $host;" to set a correct
+            #           "Host" header when passing the request to upstream
+            #            - "$host" will contain the value of the "Host" header
+            #               of the request or the primary server name
+            #               (see http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header)
+            #            - the primary server name is controllable by an
+            #               environment variable; so it is usable in Django's
+            #               ALLOWED_HOSTS aswell
+            #            - this introduces additional constraints on the value
+            #               of the environment variable. It must be compatible
+            #               with Nginx's and Django's requirements
             #        - do NOT set "X-Forwarded-Host" at all
             #        - do NOT use Django's USE_X_FORWARDED_HOST
-            #        - probably the file [project_name]/settings/docker.py is not longer required
             #
-            # TODO: Remove "{{ project_name }}" and rely on value that is set by environment variables, if possible
             # Provide the originally requested host
-            proxy_set_header Host $http_host;
-            proxy_set_header X-Forwarded-Host {{ project_name }};
+            proxy_set_header Host $host;
         }
 
     }
