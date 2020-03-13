@@ -28,8 +28,7 @@ http {
         # threads per worker. This enables 8 (logically) concurrent requests.
         # Nginx's 'keepalive' setting should be lower than this maximum number
         # of concurrent requests.
-        #keepalive ${DPS_NGINX_KEEPALIVE_NUM_CONN};
-        keepalive 5;
+        keepalive ${DPS_NGINX_KEEPALIVE_NUM_CONN};
 
         # Number of requests per keepalive connection
         # Nginx default value: 100
