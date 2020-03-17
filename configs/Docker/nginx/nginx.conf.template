@@ -59,17 +59,6 @@ http {
         #   to HTTPS.
         listen 80;
 
-        # TODO: This *should* be synchronized with Django's
-        #   DATA_UPLOAD_MAX_MEMORY_SIZE, which defaults to 2621440 byte=2.5MB.
-        #   This *could* be adjustable with environment variables, but on the
-        #   other hand, this might be a very specific setting and adjustment
-        #   only is necessary for specific applications that typically handle
-        #   larger files. For now, it is just set to Django's default value.
-        client_max_body_size 2621440;
-
-        # set the timeout for keep-alive connections for the whole server
-        keepalive_timeout 60;
-
         # serve the webapp's static files directly by Nginx
         location ${DPS_STATIC_URL} {
             # The Docker volume for static files is mounted to
@@ -145,6 +134,17 @@ http {
             # Provide the originally requested host
             proxy_set_header Host $host;
         }
+
+        # TODO: This *should* be synchronized with Django's
+        #   DATA_UPLOAD_MAX_MEMORY_SIZE, which defaults to 2621440 byte=2.5MB.
+        #   This *could* be adjustable with environment variables, but on the
+        #   other hand, this might be a very specific setting and adjustment
+        #   only is necessary for specific applications that typically handle
+        #   larger files. For now, it is just set to Django's default value.
+        client_max_body_size 2621440;
+
+        # set the timeout for keep-alive connections for the whole server
+        keepalive_timeout ${DPS_NGINX_SERVER_KEEPALIVE};
 
     }
 

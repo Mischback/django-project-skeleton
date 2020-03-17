@@ -15,6 +15,7 @@ envsubst '
     ${DPS_UPSTREAM_KEEPALIVE_TIMEOUT}
     ${DPS_NGINX_KEEPALIVE_NUM_CONN}
     ${DPS_NGINX_KEEPALIVE_NUM_REQ}
+    ${DPS_NGINX_SERVER_KEEPALIVE}
     ${DPS_NGINX_SERVER_TOKENS}
     ' \
     < /docker-bin/nginx.conf.template \
