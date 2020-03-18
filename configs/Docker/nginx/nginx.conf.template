@@ -146,6 +146,20 @@ http {
         # set the timeout for keep-alive connections for the whole server
         keepalive_timeout ${DPS_NGINX_SERVER_KEEPALIVE};
 
+        # generally activate Gzip compression
+        gzip ${DPS_NGINX_GZIP_ACTIVATION};
+        # set the compression level for on the fly compression
+        gzip_comp_level ${DPS_NGINX_GZIP_COMPRESSION};
+        # disable gzip for some browsers
+        gzip_disable msie6;
+        # minimum content length (in byte) to be compressed
+        gzip_min_length ${DPS_NGINX_GZIP_MIN_LENGTH};
+        # enable compression for all requests
+        gzip_proxied any;
+        # enable compression for the following content-types
+        # Note: "text/html" is always compressed!
+        gzip_types ${DPS_NGINX_GZIP_TYPES};
+
     }
 
     # if no server_name matches, close the connection to prevent host spoofing
