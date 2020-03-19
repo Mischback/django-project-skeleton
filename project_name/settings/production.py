@@ -12,6 +12,8 @@ ALLOWED_HOSTS = os.environ.get('DPS_DJANGO_ALLOWED_HOSTS', '').split()
 
 INSTALLED_APPS = DEFAULT_APPS
 
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 # ##### SECURITY CONFIGURATION ############################
 
 # TODO: Make sure, that sensitive information uses https
