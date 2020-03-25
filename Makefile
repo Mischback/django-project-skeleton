@@ -71,7 +71,7 @@ docker/run: docker/build
 run: docker/run
 
 tree:
-	tree -a -I ".git|.tox|doc|run" --dirsfirst -C | less -r
+	tree -a -I ".git|.tox|docs|run" --dirsfirst -C | less -r
 
 .docker/build-context:
 	echo " \
