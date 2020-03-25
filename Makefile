@@ -47,9 +47,9 @@ init:
 	mv ./configs/apache2_vhost.sample.template ./configs/apache2_vhost.sample
 	mv ./configs/Docker/django/run_gunicorn.sh.template ./configs/Docker/django/run_gunicorn.sh
 	# switching the tox configuration file
-	mv ./init/tox.ini.template ./tox.ini
+	mv ./util/init/tox.ini.template ./tox.ini
 	# switching the Makefile **should** be the last step
-	mv ./init/Makefile.template ./Makefile
+	mv ./util/init/Makefile.template ./Makefile
 
 configs/Docker/env.production:
 	echo "Initializing environment file for production..."
