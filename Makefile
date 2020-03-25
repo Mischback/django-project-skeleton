@@ -43,13 +43,13 @@ clean:
 
 init:
 	# TODO: Include some output to this function
-	# create the final version of different files by removing the '.sample' suffix
+	# create the final version of different files by removing the '.template' suffix
 	mv ./configs/apache2_vhost.sample.template ./configs/apache2_vhost.sample
 	mv ./configs/Docker/django/run_gunicorn.sh.template ./configs/Docker/django/run_gunicorn.sh
 	# switching the tox configuration file
-	mv ./configs/tox.deployment.template ./tox.ini
+	mv ./init/tox.ini.template ./tox.ini
 	# switching the Makefile **should** be the last step
-	mv ./configs/Makefile.deployment.template ./Makefile
+	mv ./init/Makefile.template ./Makefile
 
 configs/Docker/env.production:
 	echo "Initializing environment file for production..."
