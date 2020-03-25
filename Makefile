@@ -54,7 +54,7 @@ init:
 configs/Docker/env.production:
 	echo "Initializing environment file for production..."
 	cp configs/Docker/env.sample configs/Docker/env.production
-	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./bin/generate_secret_key.sh)/" configs/Docker/env.production
+	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./util/bin/generate_secret_key.sh)/" configs/Docker/env.production
 
 docker/build: configs/Docker/env.production
 	tox -q -e docker-testing
