@@ -249,7 +249,7 @@ django/staticfiles/find:
 
 ### Docker commands ###
 
-docker/build: util/requirements configs/Docker/env.production
+docker/build: util/requirements deploy/Docker/env.production
 	sudo $(MAKE) .internal/docker/build
 
 docker/run: docker/run/django
@@ -260,14 +260,14 @@ docker/run/django:
 
 ### Environment management ###
 
-configs/Docker/env.production:
+deploy/Docker/env.production:
 	# this is explicitly **NOT** a phony target, because the production
 	# settings must only be generated **ONE TIME**.
 	# Some of these settings are initialised with random values, but hve to be
 	# constant for the lifetime of a project, e.g. the SECRET_KEY.
 	$(ECHO) "Initializing environment file for production...\n"
-	cp configs/Docker/env.sample configs/Docker/env.production
-	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./bin/generate_secret_key.sh)/" configs/Docker/env.production
+	cp deploy/Docker/env.sample deploy/Docker/env.production
+	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./bin/generate_secret_key.sh)/" deploy/Docker/env.production
 
 
 ### Utility commands ###
@@ -285,13 +285,13 @@ util/requirements-force:
 
 .internal/docker/build:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
-	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml build
+	$(DOCKER_COMPOSE_CMD) -f deploy/Docker/docker-compose.yml build
 	$(DOCKER_CMD) tag "$(DPS_BUILD_NAME_PREFIX)/django:$(DPS_BUILD_ID)" "$(DPS_BUILD_NAME_PREFIX)/django:latest"
 	$(DOCKER_CMD) tag "$(DPS_BUILD_NAME_PREFIX)/nginx:$(DPS_BUILD_ID)" "$(DPS_BUILD_NAME_PREFIX)/nginx:latest"
 
 .internal/docker/run/django:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
-	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up django
+	$(DOCKER_COMPOSE_CMD) -f deploy/Docker/docker-compose.yml up django
 
 .internal/tox/dev-django: util/requirements
 	$(TOX_CMD) dev-django -- $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY)
@@ -307,7 +307,7 @@ CCYA := $(shell tput setaf 6 2>/dev/null)
 CRES := $(shell tput sgr0 2>/dev/null)
 
 DPS_USERNAME := $(shell id -un)
-DPS_BUILD_ID := $(shell ./bin/get_build_id.sh)
+DPS_BUILD_ID := $(shell ./util/bin/get_build_id.sh)
 
 # suppress unintended output
 .SILENT:

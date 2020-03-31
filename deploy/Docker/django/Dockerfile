@@ -23,7 +23,7 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
+COPY deploy/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN python3 -m venv $VIRTUAL_ENV
 
@@ -58,7 +58,7 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
+COPY deploy/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN apt-get_install.sh gosu
 
@@ -70,11 +70,11 @@ WORKDIR /webapp
 COPY --from=base --chown=2342:65534 /venv /venv
 
 # fetch the entrypoint script (and includes)
-COPY configs/Docker/django/entrypoint_django.sh /docker-bin/
-COPY configs/Docker/bin/set_timezone.sh /docker-bin/
+COPY deploy/Docker/django/entrypoint_django.sh /docker-bin/
+COPY deploy/Docker/bin/set_timezone.sh /docker-bin/
 
 # fetch the container's start script
-COPY configs/Docker/django/run_gunicorn.sh /docker-bin/
+COPY deploy/Docker/django/run_gunicorn.sh /docker-bin/
 
 # fetch the actual project files
 # TODO: copy in several steps with more/finer control

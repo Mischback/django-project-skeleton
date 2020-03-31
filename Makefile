@@ -44,19 +44,19 @@ clean:
 init:
 	# TODO: Include some output to this function
 	# create the final version of different files by removing the '.template' suffix
-	mv ./configs/apache2_vhost.sample.template ./configs/apache2_vhost.sample
-	mv ./configs/Docker/django/run_gunicorn.sh.template ./configs/Docker/django/run_gunicorn.sh
+	mv ./deploy/apache2_vhost.sample.template ./deploy/apache2_vhost.sample
+	mv ./deploy/Docker/django/run_gunicorn.sh.template ./deploy/Docker/django/run_gunicorn.sh
 	# switching the tox configuration file
 	mv ./util/init/tox.ini.template ./tox.ini
 	# switching the Makefile **should** be the last step
 	mv ./util/init/Makefile.template ./Makefile
 
-configs/Docker/env.production:
+deploy/Docker/env.production:
 	echo "Initializing environment file for production..."
-	cp configs/Docker/env.sample configs/Docker/env.production
-	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./util/bin/generate_secret_key.sh)/" configs/Docker/env.production
+	cp deploy/Docker/env.sample deploy/Docker/env.production
+	sed -i "s/#DPS_DJANGO_SECRET_KEY=/DPS_DJANGO_SECRET_KEY=$(shell ./util/bin/generate_secret_key.sh)/" deploy/Docker/env.production
 
-docker/build: configs/Docker/env.production
+docker/build: deploy/Docker/env.production
 	tox -q -e docker-testing
 
 docker/build-context:
@@ -87,4 +87,4 @@ tree:
 
 .docker/run:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
-	$(DOCKER_COMPOSE_CMD) -f configs/Docker/docker-compose.yml up
+	$(DOCKER_COMPOSE_CMD) -f deploy/Docker/docker-compose.yml up
