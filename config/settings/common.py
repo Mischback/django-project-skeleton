@@ -87,7 +87,7 @@ TEMPLATES = [
 # the default WSGI application
 WSGI_APPLICATION = os.environ.get(
     'DPS_DJANGO_WSGI_APP',
-    '{}.wsgi.application'.format(SITE_NAME)
+    'wsgi.app.application'
 )
 
 # the root URL configuration

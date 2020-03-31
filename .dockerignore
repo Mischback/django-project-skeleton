@@ -1,29 +1,25 @@
 # experimental .dockerignore
 
-# do NOT include the bin directory
-# these scripts are not used *inside* of Docker-based images.
-# They may be used during the build/run process and provide utility functions,
-# i.e. for tagging the images
-bin
+# do NOT include the util directory
+util
 
-# do NOT include the provided configuration files
-configs
+# do NOT include the provided deployment-related files
+deploy
 # but DO include the production-related scripts/config files that are used
 # inside of the images
-!configs/Docker/bin/*
-!configs/Docker/django/entrypoint_django.sh
-!configs/Docker/django/gunicorn_conf.py
-!configs/Docker/django/run_gunicorn.sh
-!configs/Docker/nginx/nginx.conf
-!configs/Docker/nginx/entrypoint_nginx.sh
+!deploy/Docker/bin/*
+!deploy/Docker/django/entrypoint_django.sh
+!deploy/Docker/django/gunicorn_conf.py
+!deploy/Docker/django/run_gunicorn.sh
+!deploy/Docker/nginx/nginx.conf
+!deploy/Docker/nginx/entrypoint_nginx.sh
 
 # do NOT include the documentation
 # TODO: the original doc-folder of django-project-skeleton should be removed
 #   during initialisation of the project. On the other hand, there could be
 #   project specific documentation. However, this should be excluded from any
 #   image.
-# TODO: 'doc' is already renamed to 'docs' in development!
-doc
+docs
 
 # inside of the images, only the compiled requirements files with the '.txt'
 # extension are used. No need to include the source files.

@@ -45,7 +45,6 @@ init:
 	# TODO: Include some output to this function
 	# create the final version of different files by removing the '.template' suffix
 	mv ./deploy/apache2_vhost.sample.template ./deploy/apache2_vhost.sample
-	mv ./deploy/Docker/django/run_gunicorn.sh.template ./deploy/Docker/django/run_gunicorn.sh
 	# switching the tox configuration file
 	mv ./util/init/tox.ini.template ./tox.ini
 	# switching the Makefile **should** be the last step

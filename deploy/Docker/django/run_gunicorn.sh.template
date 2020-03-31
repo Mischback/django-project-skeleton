@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -euo pipefail
-
-export DJANGO_SETTINGS_MODULE="{{ project_name}}.settings.docker"
-
-exec gunicorn {{ project_name }}.wsgi:application --config='file:configs/Docker/django/gunicorn_conf.py'
