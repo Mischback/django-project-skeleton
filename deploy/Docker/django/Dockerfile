@@ -81,7 +81,7 @@ COPY deploy/Docker/django/gunicorn_conf.py /docker-bin/
 # fetch the actual project files
 # TODO: copy in several steps with more/finer control
 #COPY --chown=2342:65534 . .
-COPY --chown=2342:65534 ./wsgi ./wsgi
+COPY --chown=2342:65534 ./sgi ./sgi
 COPY --chown=2342:65534 ./config ./config
 COPY --chown=2342:65534 ./apps ./apps
 COPY --chown=2342:65534 ./templates ./templates
