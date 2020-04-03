@@ -281,7 +281,7 @@ util/requirements-force:
 
 
 .internal/django/raw:
-	$(DJANGOADMIN_CMD) $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY) --settings={{ project_name }}.settings.development
+	$(DJANGOADMIN_CMD) $(django_cmd) $(DJANGOADMIN_CMD_VERBOSITY)
 
 .internal/docker/build:
 	DPS_BUILD_NAME_PREFIX=$(DPS_BUILD_NAME_PREFIX) DPS_BUILD_ID=$(DPS_BUILD_ID) \
