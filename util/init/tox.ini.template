@@ -17,7 +17,7 @@ deps =
     -rrequirements/development.txt
 skip_install = true
 commands =
-    {posargs:{envbindir}/python manage.py version --settings={{ project_name }}.settings.development}
+    {posargs:{envbindir}/python manage.py version}
 
 [testenv:dev-django]
 basepython = {[testenv:base]basepython}
@@ -25,7 +25,7 @@ envdir = {[testenv:base]envdir}
 deps = {[testenv:base]deps}
 skip_install = {[testenv:base]skip_install}
 commands =
-    {envbindir}/python manage.py {posargs:version} --settings={{ project_name }}.settings.development
+    {envbindir}/python manage.py {posargs:version}
 
 [testenv:test-django]
 basepython = {[testenv:base]basepython}
