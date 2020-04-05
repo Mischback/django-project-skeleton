@@ -19,7 +19,15 @@ from django.core.wsgi import get_asgi_application
 # Provide a default settings module
 # WSGI is used to deploy the project, so the default value are the production
 # settings. This may be overwritten in actual deployment setups.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
+# This defaults to 'config.settings.production' but may be adjusted either by
+# settings DJANGO_SETTINGS_MODULE directly or using DPS_DJANGO_SETTINGS_MODULE.
+os.environ.setdefault(
+    'DJANGO_SETTINGS_MODULE',
+    os.environ.get(
+        'DPS_DJANGO_SETTINGS_MODULE',
+        'config.settings.production'
+    )
+)
 
 # actually expose an application
 application = get_asgi_application()

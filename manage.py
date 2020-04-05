@@ -12,7 +12,17 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.development')
+    # By default, 'manage.py' will use the development settings, provided
+    # in 'config.settings.development'. This might be overruled by explicitly
+    # setting DJANGO_SETTINGS_MODULE or using DPS_DJANGO_SETTINGS_MODULE.
+    os.environ.setdefault(
+        'DJANGO_SETTINGS_MODULE',
+        os.environ.get(
+            'DPS_DJANGO_SETTINGS_MODULE',
+            'config.settings.development'
+        )
+    )
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

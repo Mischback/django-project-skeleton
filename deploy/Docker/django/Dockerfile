@@ -62,6 +62,10 @@ COPY deploy/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN apt-get_install.sh gosu
 
+# provide a default value for Django's settings module
+ARG DPS_DJANGO_SETTINGS_MODULE=config.settings.production
+ENV DPS_DJANGO_SETTINGS_MODULE ${DPS_DJANGO_SETTINGS_MODULE}
+
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser
 WORKDIR /webapp
@@ -85,6 +89,9 @@ COPY --chown=2342:65534 ./sgi ./sgi
 COPY --chown=2342:65534 ./config ./config
 COPY --chown=2342:65534 ./apps ./apps
 COPY --chown=2342:65534 ./templates ./templates
+
+# TODO: This don't have to be in the image, but nice for debugging!
+COPY --chown=2342:65534 ./manage.py ./manage.py
 
 # make Gunicorn's port 8000 available to other Docker images
 EXPOSE 8000
