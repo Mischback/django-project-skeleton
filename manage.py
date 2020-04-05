@@ -1,22 +1,38 @@
 #!/usr/bin/env python
+
+"""Django's command-line utility for administrative tasks.
+
+This is based on Django's default 'manage.py', but slightly modified to be
+compatible with the custom project layout provided by
+'django-project-skeleton'."""
+
+# Python imports
 import os
 import sys
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "{{ project_name }}.settings.development")
+
+def main():
+    # By default, 'manage.py' will use the development settings, provided
+    # in 'config.settings.development'. This might be overruled by explicitly
+    # setting DJANGO_SETTINGS_MODULE or using DPS_DJANGO_SETTINGS_MODULE.
+    os.environ.setdefault(
+        'DJANGO_SETTINGS_MODULE',
+        os.environ.get(
+            'DPS_DJANGO_SETTINGS_MODULE',
+            'config.settings.development'
+        )
+    )
+
     try:
         from django.core.management import execute_from_command_line
-    except ImportError:
-        # The above import may fail for some other reason. Ensure that the
-        # issue is really that Django is missing to avoid masking other
-        # exceptions on Python 2.
-        try:
-            import django
-        except ImportError:
-            raise ImportError(
-                "Couldn't import Django. Are you sure it's installed and "
-                "available on your PYTHONPATH environment variable? Did you "
-                "forget to activate a virtual environment?"
-            )
-        raise
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
     execute_from_command_line(sys.argv)
+
+
+if __name__ == '__main__':
+    main()

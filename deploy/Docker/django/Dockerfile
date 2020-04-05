@@ -23,7 +23,7 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
+COPY deploy/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN python3 -m venv $VIRTUAL_ENV
 
@@ -58,9 +58,13 @@ ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH:/docker-bin"
 
 # fetch our custom install script
-COPY configs/Docker/bin/apt-get_install.sh /docker-bin/
+COPY deploy/Docker/bin/apt-get_install.sh /docker-bin/
 
 RUN apt-get_install.sh gosu
+
+# provide a default value for Django's settings module
+ARG DPS_DJANGO_SETTINGS_MODULE=config.settings.production
+ENV DPS_DJANGO_SETTINGS_MODULE ${DPS_DJANGO_SETTINGS_MODULE}
 
 # create a user to be used (meaning: we won't run with root-permissions!)
 RUN useradd -u 2342 -g 65534 -s /bin/false -M pythonuser
@@ -69,16 +73,25 @@ WORKDIR /webapp
 # fetch the virtual environment from base
 COPY --from=base --chown=2342:65534 /venv /venv
 
+# TODO: Can the following statements be combined into one?
 # fetch the entrypoint script (and includes)
-COPY configs/Docker/django/entrypoint_django.sh /docker-bin/
-COPY configs/Docker/bin/set_timezone.sh /docker-bin/
+COPY deploy/Docker/django/entrypoint_django.sh /docker-bin/
+COPY deploy/Docker/bin/set_timezone.sh /docker-bin/
 
 # fetch the container's start script
-COPY configs/Docker/django/run_gunicorn.sh /docker-bin/
+COPY deploy/Docker/django/run_gunicorn.sh /docker-bin/
+COPY deploy/Docker/django/gunicorn_conf.py /docker-bin/
 
 # fetch the actual project files
 # TODO: copy in several steps with more/finer control
-COPY --chown=2342:65534 . .
+#COPY --chown=2342:65534 . .
+COPY --chown=2342:65534 ./sgi ./sgi
+COPY --chown=2342:65534 ./config ./config
+COPY --chown=2342:65534 ./apps ./apps
+COPY --chown=2342:65534 ./templates ./templates
+
+# TODO: This don't have to be in the image, but nice for debugging!
+COPY --chown=2342:65534 ./manage.py ./manage.py
 
 # make Gunicorn's port 8000 available to other Docker images
 EXPOSE 8000

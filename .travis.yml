@@ -11,7 +11,6 @@ language: python
 
 # listing the Python versions to be tested
 python:
-    - "2.7"
     - "3.4"
     - "3.5"
     - "3.6"

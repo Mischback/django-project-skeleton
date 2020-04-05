@@ -15,5 +15,5 @@ coverage_html
 
 # do NOT track environment files that are used for docker-compose, but do
 # include the sample
-configs/Docker/env.*
-!configs/Docker/env.sample
+deploy/Docker/env.*
+!deploy/Docker/env.sample
