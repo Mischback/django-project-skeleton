@@ -84,11 +84,12 @@ TEMPLATES = [
     },
 ]
 
-# the default WSGI application
-WSGI_APPLICATION = os.environ.get(
-    'DPS_DJANGO_WSGI_APP',
-    'wsgi.app.application'
-)
+# The WSGI application to be used by Django's internal servers.
+# Please note, Django's 'runserver' should **not** be used in production
+# environments.
+# If set to 'None', 'django.core.wsgi.get_wsgi_application()' will be used to
+# determine the WSGI application.
+WSGI_APPLICATION = os.environ.get('DPS_DJANGO_WSGI_APP', None)
 
 # the root URL configuration
 ROOT_URLCONF = '{}.urls'.format(SITE_NAME)
